@@ -1,0 +1,100 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/fixes.html" as fixes %}
+{% import "bootstrap/utils.html" as util %}
+
+{% block content %}
+{{util.flashed_messages(dismissible=True)}}
+<style>
+.header {
+  top: 0;
+  left:0;
+  width: 100%;
+}
+.regex {
+  padding: 20px;
+  width: 60%;
+  margin: auto;
+  background-color: white;
+  line-height:90%;
+  border-radius: 10px;
+  box-shadow: 2px 2px #BBBBBB;
+}
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+.sticky + .regex {
+  padding-top: 10px;
+}
+.topnav {
+  overflow: hidden;
+  background-color: #444444;
+}
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 12px 24px;
+  text-decoration: none;
+  vertical-align: middle;
+  font-size: 18px;
+}
+.topnav a:hover {
+  background-color: #ddf2f4;
+  color: #113337;
+}
+.topnav a.active {
+  background-color: #37a1ae;
+  color: white;
+}     
+</style>
+
+<html>
+    <head>
+        <title>ClinicalRegex</title>
+    </head>
+    <body style="background-color: #c3e8ec;">
+    <div class="topnav">
+        <a class="active" href="{{ url_for('auth_bp.login_page') }}"><b>ClinicalRegex</b></a>
+        <a href="{{ url_for('auth_bp.run_regex') }}">Run Regex</a>
+        <a href="{{ url_for('auth_bp.update_keyword') }}">Update Keywords</a>
+        <a href="{{ url_for('auth_bp.login_page') }}">Load Annotation</a>
+    </div>
+    {% if msg %}
+      <div class="alert alert-warning" role="alert" style="width:99.5%; height:75%; margin: auto; border-radius: 5px;">
+        {{msg}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {% endif %}
+    </br>
+    <div class="regex">  
+      {{ wtf.quick_form(form, form_type='horizontal', button_map={'submit_button': 'primary'}) }} 
+    </div>
+    
+    <script>
+    window.onscroll = function() {Fix()};
+
+    var header = document.getElementById("Header");
+    var sticky = header.offsetTop;
+
+    function Fix() {
+      if (window.pageYOffset > sticky) {
+        header.classList.add("sticky");
+      } else {
+        header.classList.remove("sticky");
+      }
+    }
+    </script>
+    </body>
+</html>
+{% endblock %}
+
+{% block head %}
+{{super()}}
+{{fixes.ie8()}}
+{% endblock %}
+

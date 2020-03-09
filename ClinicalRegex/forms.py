@@ -1,0 +1,80 @@
+from wtforms import Form, BooleanField, StringField, PasswordField, FileField, validators, SubmitField, SelectField
+from wtforms.validators import ValidationError, DataRequired, InputRequired, Length, Optional
+from wtforms import TextField, SelectField, BooleanField, StringField, IntegerField, SubmitField, ValidationError, validators, TextAreaField
+from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileRequired, FileAllowed
+
+
+class LoadForm(FlaskForm):
+    inputfile = FileField(u'Input File', [FileRequired()])
+    outputfile = StringField(u'Output File', [validators.optional(), validators.length(max=10)], default="output.csv")
+    run_or_load = SelectField('Function', coerce=int, validators=[InputRequired],
+                              choices=[(0, 'Run Regex'), (1, 'Load Annotation'), (2, 'RPDR to CSV')],
+                              default=0)
+    submit_button = SubmitField('Load Annotation')
+
+
+class RegexForm(FlaskForm):
+    pt_ID = SelectField('ID column', coerce=int, validators=[InputRequired])
+    report_text = SelectField('Text column', coerce=int, validators=[InputRequired])
+    label1_name = StringField(u'Label 1', [validators.required(), validators.length(max=10)],
+                              render_kw={"placeholder": "Label1 name"})
+    label1_keyword = TextAreaField(u'', [validators.required(), validators.length(max=200)],
+                                   render_kw={"placeholder": "Label1 keywords"})
+    label2_name = StringField(u'Label 2', [validators.optional(), validators.length(max=10)],
+                              render_kw={"placeholder": "Label2 name (optional)"})
+    label2_keyword = TextAreaField(u'', [validators.optional(), validators.length(max=200)],
+                                   render_kw={"placeholder": "Label2 keywords (optional)"})
+    label3_name = StringField(u'Label 3', [validators.optional(), validators.length(max=10)],
+                              render_kw={"placeholder": "Label3 name (optional)"})
+    label3_keyword = TextAreaField(u'', [validators.optional(), validators.length(max=200)],
+                                   render_kw={"placeholder": "Label3 keywords (optional)"})
+    patient_level = BooleanField('Patient Level', default=True)
+    positive_hit = BooleanField('Display notes with keywords only', default=True)
+    submit_button = SubmitField('Run Regex')
+
+
+class UpdateForm(FlaskForm):
+    label1_name = StringField(u'Label 1', [validators.required(), validators.length(max=10)],
+                              render_kw={'readonly': True})
+    label1_keyword = TextAreaField(u'', [validators.required(), validators.length(max=200)])
+    label2_name = StringField(u'Label 2', [validators.optional(), validators.length(max=10)],
+                              render_kw={'readonly': True})
+    label2_keyword = TextAreaField(u'', [validators.optional(), validators.length(max=200)])
+    label3_name = StringField(u'Label 3', [validators.optional(), validators.length(max=10)],
+                              render_kw={'readonly': True})
+    label3_keyword = TextAreaField(u'', [validators.optional(), validators.length(max=200)])
+    #refresh_data = BooleanField('Sort', default=True)
+    submit_button = SubmitField('Update Regex')
+
+
+class ValueFormOne(FlaskForm):
+    label1_value = IntegerField(u'Label 1')
+    submit_button = SubmitField('Save')
+
+
+class ValueFormTwo(FlaskForm):
+    label1_value = IntegerField(u'Label 1',
+                                render_kw={"placeholder": "annotation value"})
+    label2_value = IntegerField(u'Label 2',
+                                render_kw={"placeholder": "annotation value"})
+    submit_button = SubmitField('Save')
+
+
+class ValueFormThree(FlaskForm):
+    label1_value = IntegerField(u'Label 1',
+                                render_kw={"placeholder": "annotation value"})
+    label2_value = IntegerField(u'Label 2',
+                                render_kw={"placeholder": "annotation value"})
+    label3_value = IntegerField(u'Label 3',
+                                render_kw={"placeholder": "annotation value"})
+    submit_button = SubmitField('Save')
+
+
+class DownloadForm(FlaskForm):
+    submit_download = SubmitField('Download Output')
+
+
+class ValueForm(FlaskForm):
+    value = IntegerField('Value', validators=[DataRequired()], render_kw={"placeholder": "1"})
+    submit_value = SubmitField('Refresh')

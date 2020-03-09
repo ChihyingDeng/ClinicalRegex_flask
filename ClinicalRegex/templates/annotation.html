@@ -1,0 +1,144 @@
+
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/fixes.html" as fixes %}
+{% import "bootstrap/utils.html" as util %}
+
+{% block content %}
+<style>
+.annotation {
+  position: relative; 
+  left: 15%; 
+  width: 84%;
+  top: 0%;
+}
+.left_bar {
+  position: fixed;
+  position:sticky; 
+  padding: 10px;
+  width: 13%;
+  left: 1%;
+  top: 30%;
+  background-color: #c3e8ec;
+  border-radius: 5px;
+}
+
+.value {
+  position: fixed;
+  position:sticky; 
+  width: 13%;
+  top: 62%;
+}
+.download {
+  position: fixed;
+  position:sticky; 
+  width: 10%;
+  left: 1%;
+  top: 92%;
+}
+.topnav {
+  overflow: hidden;
+  background-color: #444444;
+}
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 12px 30px;
+  text-decoration: none;
+  vertical-align: middle;
+  font-size: 18px;
+}
+.topnav a:hover {
+    background-color: #ddf2f4;
+  color: #113337;
+}
+.topnav a.active {
+  background-color: #37a1ae;
+  color: white;
+}            
+</style>
+
+<div class="topnav">
+    <a class="active" href="{{ url_for('auth_bp.login_page') }}"><b>ClinicalRegex</b></a>
+    <a href="{{ url_for('auth_bp.run_regex') }}">Run Regex</a>
+    <a href="{{ url_for('auth_bp.update_keyword') }}">Update Keywords</a>
+    <a href="{{ url_for('auth_bp.login_page') }}">Load Annotation</a>
+</div>
+<div class="annotation" style="position:relative; top: 0%; left:15%; width:84%">
+    {{ pagination.links }}
+    <table class="table table-striped table-hover">
+        <thead>
+		{% for id, text in id_text%}
+            <tr>
+                <th>{{id}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    {% for i in range(text|length) %}
+                        {% if matches[i] == [None] %}
+                            {{text[i]}}
+                        {% else %}
+                            {% for prev, start, end, label in matches[i] %}
+                                {% if label == 1 %}
+                                    {{text[i][prev:start]}}
+                                    <span style="background-color: #f1c6de">{{text[i][start:end]}}</span>
+                                {% elif label == 2 %}
+                                    {{text[i][prev:start]}}
+                                    <span style="background-color: #ffd3b6">{{text[i][start:end]}}</span>
+                                {% else %}
+                                    {{text[i][prev:start]}}
+                                    <span style="background-color: #b9bfff">{{text[i][start:end]}}</span>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        <br/>
+                    {% endfor %}
+                </td>
+            </tr>
+           {% endfor %}
+        </tbody>
+    </table>
+    {{ pagination.links }}
+</div>
+
+<div class="left_bar"  id="Left_Bar" style="position:sticky; top: 10%; width:13%; background-color: #c3e8ec;" >
+    <h4 style="color:#428bca; text-align:center;"><b>Annotation</b></h4>
+    {{ wtf.quick_form(form, button_map={'submit_button': 'primary'}) }}
+    <p style="font-size: 12px; line-height: 12px;"><br/>Notes with keywords:<br/>{{num_keywords[0]}} out of {{num_keywords[1]}}</p>
+</div>
+
+<div class="value" style="position:sticky; left:1%; top: 62%; width:13%;">
+  <h5 style="text-align:center;"><a href="{{ url_for('auth_bp.value_counts') }}">Value Counts</a></h5>
+<ul class="list-group">
+  <li class="list-group-item d-flex justify-content-between align-items-center" style="height: 30px; padding: 5px 15px;">
+    <small>Annotated</small>
+    <span class="badge badge-primary badge-pill"><small>{{value_counts.annotation[1]}}</small></span>
+  </li>
+  {% for i in range(num_label) %}
+    <li class="list-group-item d-flex justify-content-between align-items-center" style="height: 30px; padding: 5px 15px;">
+        <small>L{{i+1}}: {{value_counts.label[i][0]}}</small>
+      <span class="badge badge-primary badge-pill"><small>{{value_counts.label[i][1]}}</small></span>
+    </li>
+  {% endfor %}
+</ul>
+<div class="progress">
+    <div class="progress-bar" role="progressbar" style="{{value_counts.annotation_prog_str[1]}}"
+         aria-valuenow={{value_counts.annotation_prog[1]}} 
+         aria-valuemin="0" aria-valuemax="100"><small>{{value_counts.annotation_prog[1]}}%</small></div>
+</div>
+</div>
+<div class="download"  id="download" style="position:sticky; top: 92%; width:13%">
+  {{ wtf.quick_form(downloadform, button_map={'submit_download': 'warning'}) }}
+</div>
+
+
+{{ dataframe|safe }}
+{% endblock %}
+
+{% block head %}
+{{super()}}
+{{fixes.ie8()}}
+{% endblock %}
