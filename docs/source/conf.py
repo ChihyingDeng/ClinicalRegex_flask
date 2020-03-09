@@ -30,6 +30,9 @@ author = 'Chih-Ying Deng'
 extensions = [
 ]
 
+# Add any paths that contain templates here, relative to this directory.
+html_theme = "sphinx_rtd_theme"
+
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
