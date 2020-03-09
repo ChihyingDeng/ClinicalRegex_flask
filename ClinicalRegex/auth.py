@@ -223,8 +223,7 @@ def annotation():
             value_counts = data.get_value_counts()
 
         if downloadform.validate_on_submit() and downloadform.submit_download.data:
-            return send_file(
-                '../output/' + data.output_fname,
+            return send_file('../output/' + data.output_fname,
                 mimetype='text/csv',
                 attachment_filename=data.output_fname,
                 as_attachment=True)
@@ -285,7 +284,9 @@ def value_counts():
 def update_keyword():
     if data.is_empty():
         msg = "please run regex first!"
-        form
+        pt_ID_default = data.cols_dict.get('mrn') or data.cols_dict.get('empi') or data.cols_dict.get('id')
+        report_text_default = data.cols_dict.get('report_text') or data.cols_dict.get('comments')
+        form = RegexForm(pt_ID=pt_ID_default, report_text=report_text_default)
         return redirect(url_for('auth_bp.run_regex'))
     data.annotated_value = None
     data.update_keyword = True

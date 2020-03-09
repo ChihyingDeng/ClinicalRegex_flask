@@ -260,7 +260,7 @@ class DataModel:
 
     def get_value_counts(self):
         value_counts = ValueCounts()
-        notes = self.num_keywords[0] if self.positive_hit else self.num_keywords[1]
+        notes = self.num_keywords[0] + 1e-8 if self.positive_hit else self.num_keywords[1] + 1e-8
         value_counts.label = [(self.label_name[i], len(self.output_df[self.output_df['L%d_%s' %
                                                                                      (i + 1, self.label_name[i])] == self.search_value])) for i in range(self.num_label)]
         value_counts.annotation = (len(self.output_df.loc[:notes -
