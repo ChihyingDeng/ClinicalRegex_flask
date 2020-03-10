@@ -44,10 +44,10 @@ Example
 +------------------------------+-------------------------------------------------------------------+
 |``goal (of|for) cares?``      |goal of care, goal for care, goal of cares, goal for cares         |
 +------------------------------+-------------------------------------------------------------------+
-|``ECOG\s{0,1}[0-4]``          |ECOG0,ECOG1,ECOG2,ECOG3,ECOG4,ECOG 0,ECOG 1,ECOG 2,ECOG 3,ECOG 4   |
+|``ECOG\s{0,2}[1-3]``          |ECOG1,ECOG2,ECOG3,ECOG 1,ECOG 2,ECOG 3,ECOG  1,ECOG  2,ECOG  3     |
 +------------------------------+-------------------------------------------------------------------+
 |``hypertension(?! crisis)``   |It will only capture 'hypertension' without 'hypertension crisis'  |
 +------------------------------+-------------------------------------------------------------------+
-|``(?<!superior )mediastinum.``|It will only capture 'mediastinum' without 'superior mediastinum'  |
+|``(?<!superior )mediastinum`` |It will only capture 'mediastinum' without 'superior mediastinum'  |
 +------------------------------+-------------------------------------------------------------------+
 * Please note that, the negative lookahead will only accept fixed length of text, you can' write the Regex as ``(?<!(abc|abcdef))zzzz``, because abc and abcdef have different length. Please use ``(?<!abc)(?<!abcdef)zzzz`` instead.
