@@ -9,8 +9,5 @@ Guide
 
    install
    run
+   regex
 
-
-Search
-^^^^^^
-* :ref:`search`

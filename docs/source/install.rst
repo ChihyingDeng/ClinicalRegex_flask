@@ -22,15 +22,23 @@ Start Docker Desktop
      :height: 283
      :width: 500
 
-Open command-line terminal
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-* Windows: search for ``cmd``
+Open Command-line interface
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+* Run the following commands:
+
+::
+
+   docker pull chihyingdeng/clinical_regex
+   docker run -p 80:80 chihyingdeng/clinical_regex
+
+* Here's some commonly used command-line interface:
+** Windows: search for ``cmd``
 
   .. image:: img/CLI_windows.png
      :height: 400
      :width: 472
 
-* Mac:
+** Mac:
 
   .. image:: img/CLI1.png
      :height: 350
@@ -40,13 +48,6 @@ Open command-line terminal
      :height: 242
      :width: 482
 
-* Run the following command:
-
-::
-
-   docker pull chihyingdeng/clinical_regex
-   docker run -p 80:80 chihyingdeng/clinical_regex
-
 Open the browser
 ^^^^^^^^^^^^^^^^^
 * Go to http://localhost/
@@ -55,12 +56,10 @@ Open the browser
      :height: 30
      :width: 521
 
-* You can also open the browser from docker dashboard, stop, or start the docker image.
+* You can also open the browser from docker's dashboard and stop the docker image after you've done.
 
-  .. image:: img/docker.png
-     :height: 243
-     :width: 175
+  .. image:: img/dashboard.png
+     :height: 300
+     :width: 651
 
-  .. image:: img/docker_dashboard.png
-     :height: 400
-     :width: 682
+ * After installation, if you want to start the ClinicalRegex program again, please restart the docker image and open the browser.
