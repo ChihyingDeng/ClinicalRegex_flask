@@ -32,21 +32,22 @@ Open Command-line interface
    docker run -p 80:80 chihyingdeng/clinical_regex
 
 * Here's some commonly used command-line interface:
-** Windows: search for ``cmd``
 
-  .. image:: img/CLI_windows.png
-     :height: 400
-     :width: 472
+  + Windows: search for ``cmd``
 
-** Mac:
+    .. image:: img/CLI_windows.png
+       :height: 400
+       :width: 472
 
-  .. image:: img/CLI1.png
-     :height: 350
-     :width: 482
+  + Mac:
 
-  .. image:: img/CLI2.png
-     :height: 242
-     :width: 482
+    .. image:: img/CLI1.png
+       :height: 350
+       :width: 482
+
+    .. image:: img/CLI2.png
+       :height: 242
+       :width: 482
 
 Open the browser
 ^^^^^^^^^^^^^^^^^
