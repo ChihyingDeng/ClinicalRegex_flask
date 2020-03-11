@@ -9,8 +9,7 @@ class LoadForm(FlaskForm):
     inputfile = FileField(u'Input File', [FileRequired()])
     outputfile = StringField(u'Output File', [validators.optional(), validators.length(max=10)], default="output.csv")
     run_or_load = SelectField('Function', coerce=int, validators=[InputRequired],
-                              choices=[(0, 'Run Regex'), (1, 'Load Annotation'), (2, 'RPDR to CSV')],
-                              default=0)
+                              choices=[(0, 'Run Regex'), (1, 'Load Annotation'), (2, 'RPDR to CSV')])
     submit_button = SubmitField('Load Annotation')
 
 
@@ -44,7 +43,6 @@ class UpdateForm(FlaskForm):
     label3_name = StringField(u'Label 3', [validators.optional(), validators.length(max=10)],
                               render_kw={'readonly': True})
     label3_keyword = TextAreaField(u'', [validators.optional(), validators.length(max=200)])
-    #refresh_data = BooleanField('Sort', default=True)
     submit_button = SubmitField('Update Regex')
 
 
@@ -72,7 +70,8 @@ class ValueFormThree(FlaskForm):
 
 
 class DownloadForm(FlaskForm):
-    submit_download = SubmitField('Download Output')
+    with_report = BooleanField('with report', default=True)
+    submit_download = SubmitField('Download')
 
 
 class ValueForm(FlaskForm):

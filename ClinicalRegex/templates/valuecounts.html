@@ -3,6 +3,7 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% import "bootstrap/fixes.html" as fixes %}
 {% import "bootstrap/utils.html" as util %}
+(% from jinja2 import Template %)
 
 {% block content %}
 <style>
@@ -66,10 +67,10 @@
 </style>
 
 <div class="topnav">
-    <a class="active" href="{{ url_for('auth_bp.login_page') }}"><b>ClinicalRegex</b></a>
+    <a class="active" href="{{ url_for('auth_bp.login_page', load=False) }}"><b>ClinicalRegex</b></a>
     <a href="{{ url_for('auth_bp.run_regex') }}">Run Regex</a>
     <a href="{{ url_for('auth_bp.update_keyword') }}">Update Keywords</a>
-    <a href="{{ url_for('auth_bp.login_page') }}">Load Annotation</a>
+    <a href="{{ url_for('auth_bp.login_page', load=True) }}">Load Annotation</a>
 </div>
 
 <div class="left_bar"  id="Left_Bar" style="position:fixed; top: 10%; width:12%; background-color: #c3e8ec;" >
@@ -133,7 +134,8 @@
                  aria-valuemin="0" aria-valuemax="100">{{value_counts.annotation_prog[0]}}%</div>
         </div>
         {% for i in value_counts.annotation_idx[0] %}
-            <a href="{{ url_for('auth_bp.annotation', jump=i) }}" class="btn btn-link" role="button" aria-pressed="true" style="width:50px; text-align:center;">{{i+1}}</a>
+          {% if loop.index0%15==0 %}<br/>{% endif %}
+          <a href="{{ url_for('auth_bp.annotation', jump=i) }}" class="btn btn-link" role="button" aria-pressed="true" style="width:50px; text-align:center;">{{i+1}}</a>
         {% endfor %}
     </div>
     <div class="tab-pane" id="anno" role="tabpanel" aria-labelledby="anno-tab">
@@ -143,7 +145,8 @@
                     aria-valuemin="0" aria-valuemax="100">{{value_counts.annotation_prog[1]}}%</div>
         </div>
         {% for i in value_counts.annotation_idx[1] %}
-        <a href="{{ url_for('auth_bp.annotation', jump=i) }}" class="btn btn-link" role="button" aria-pressed="true" style="width:50px; text-align:center;">{{i+1}}</a>
+          {% if loop.index0%15==0 %}<br/>{% endif %}
+          <a href="{{ url_for('auth_bp.annotation', jump=i) }}" class="btn btn-link" role="button" aria-pressed="true" style="width:50px; text-align:center;">{{i+1}}</a>
         {% endfor %}
     </div>
     <div class="tab-pane" id="label1" role="tabpanel" aria-labelledby="label1-tab">
@@ -153,7 +156,8 @@
                     aria-valuemin="0" aria-valuemax="100">{{value_counts.label_prog[0]}}%</div>
         </div>
         {% for i in value_counts.label_idx[0] %}
-        <a href="{{ url_for('auth_bp.annotation', jump=i) }}" class="btn btn-link" role="button" aria-pressed="true" style="width:50px; text-align:center;">{{i+1}}</a>
+          {% if loop.index0%15==0 %}<br/>{% endif %}
+          <a href="{{ url_for('auth_bp.annotation', jump=i) }}" class="btn btn-link" role="button" aria-pressed="true" style="width:50px; text-align:center;">{{i+1}}</a>
         {% endfor %}
     </div>
     {% if num_label > 1 %}
@@ -164,7 +168,8 @@
                         aria-valuemin="0" aria-valuemax="100">{{value_counts.label_prog[1]}}%</div>
             </div>
             {% for i in value_counts.label_idx[1] %}
-            <a href="{{ url_for('auth_bp.annotation', jump=i) }}" class="btn btn-link" role="button" aria-pressed="true" style="width:50px; text-align:center;">{{i+1}}</a>
+              {% if loop.index0%15==0 %}<br/>{% endif %}
+              <a href="{{ url_for('auth_bp.annotation', jump=i) }}" class="btn btn-link" role="button" aria-pressed="true" style="width:50px; text-align:center;">{{i+1}}</a>
             {% endfor %}
         </div>
     {% endif %}

@@ -167,7 +167,7 @@ class DataModel:
             if self.update_keyword:
                 self.output_df.loc[self.num_label + 1, 'keywords'] = self.current_row_index
         except BaseException:
-            return "Something went wrong, did you select an appropriately columns?"
+            return "Something went wrong, did you select an appropriately columns or using the right format of regex?"
         return "done"
 
     def _clean_phrase(self, phrase):
@@ -256,6 +256,7 @@ class DataModel:
             self.output_df.loc[self.current_row_index, 'L%d_' % (i + 1) + self.label_name[i] + '_text'] = match_text
         self.output_df.loc[self.num_label + 1, 'keywords'] = self.current_row_index
         self.output_df.to_csv('output/' + self.output_fname, index=False)
+        self.output_df.drop(columns=[self.report_text]).to_csv('output/noreport_' + self.output_fname, index=False)
         self.save = True
 
     def get_value_counts(self):

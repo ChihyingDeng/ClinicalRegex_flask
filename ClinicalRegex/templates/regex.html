@@ -57,10 +57,10 @@
     </head>
     <body style="background-color: #c3e8ec;">
     <div class="topnav">
-        <a class="active" href="{{ url_for('auth_bp.login_page') }}"><b>ClinicalRegex</b></a>
+        <a class="active" href="{{ url_for('auth_bp.login_page', load=False) }}"><b>ClinicalRegex</b></a>
         <a href="{{ url_for('auth_bp.run_regex') }}">Run Regex</a>
         <a href="{{ url_for('auth_bp.update_keyword') }}">Update Keywords</a>
-        <a href="{{ url_for('auth_bp.login_page') }}">Load Annotation</a>
+        <a href="{{ url_for('auth_bp.login_page', load=True) }}">Load Annotation</a>
     </div>
     {% if msg %}
       <div class="alert alert-warning" role="alert" style="width:99.5%; height:75%; margin: auto; border-radius: 5px;">

@@ -14,7 +14,7 @@ Run Regex
 ^^^^^^^^^
 * Please select the columns for patient/note ID and the report text.
 * Please enter the label name and the keyword set for the labels. You could only have one label and leave label 2 and label 3 blank.
-* The keyword should be separated by ``,`` or ``,\ ``
+* The keyword should be separated by ``,``.
 * The report text will be lemmatized. For example, if you enter the keyword 'test', it will capture all the words like "test, tests, tested, testing'. If you only want to capture the word "test", please enter ``(test)``.
 * You could also use regular expression in the keyword, but when you are using Regex, it won't apply lemmatization automatically.
 * If ``Patient level`` is selected, the program will search all the notes belong to a patient and combine the text around the keyword together.
@@ -26,7 +26,7 @@ Run Regex
 
 * The default value is ``1`` if the keywords exist in the report and ``0`` if not.
 * If you go to next or previous notes, it will automatically saved the default value.
-* If you modify the annotation value, **please click ``save`` button to save it**. Otherwise it will saved as default value.
+* **If you modify the annotation value, please remember to SAVE it** by clicking on the ``save`` button. Otherwise it will saved as default value.
 
   .. image:: img/run_regex_result.png
      :height: 487
@@ -43,6 +43,9 @@ Run Regex
   .. image:: img/label2.png
      :height: 492
      :width: 676 
+
+*  You could download the output file with or without report text by clicking on the ``download`` button
+
 
 Update Keywords
 ^^^^^^^^^^^^^^^

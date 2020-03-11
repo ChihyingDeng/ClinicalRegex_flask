@@ -60,10 +60,10 @@
 </style>
 
 <div class="topnav">
-    <a class="active" href="{{ url_for('auth_bp.login_page') }}"><b>ClinicalRegex</b></a>
+    <a class="active" href="{{ url_for('auth_bp.login_page', load=False) }}"><b>ClinicalRegex</b></a>
     <a href="{{ url_for('auth_bp.run_regex') }}">Run Regex</a>
     <a href="{{ url_for('auth_bp.update_keyword') }}">Update Keywords</a>
-    <a href="{{ url_for('auth_bp.login_page') }}">Load Annotation</a>
+    <a href="{{ url_for('auth_bp.login_page', load=True) }}">Load Annotation</a>
 </div>
 
 <div class="left_bar" id="Header" style=" position:fixed; left: 1%; top: 70px; width: 13%; background-color: #c3e8ec; border-radius: 5px;"c>
@@ -73,7 +73,7 @@
 </div>
 
 <div class="value" style="position: fixed; left: 1%; top: 62%; width: 13%;">
-  <h5 style="text-align:center;"><a href="{{ url_for('auth_bp.value_counts') }}">Value Counts</a></h5>
+  <h5 style="text-align:center;"><a href="{{ url_for('auth_bp.value_counts', enumerate=enumerate) }}">Value Counts</a></h5>
 <ul class="list-group">
   <li class="list-group-item d-flex justify-content-between align-items-center" style="height: 30px; padding: 5px 15px;">
     <small>Annotated</small>
@@ -94,7 +94,7 @@
 </div>
 
 <div class="download" style="position: fixed; left: 1%; top: 92%; width: 13%;">
-  {{ wtf.quick_form(downloadform, button_map={'submit_download': 'warning'}) }}
+  {{ wtf.quick_form(downloadform, form_type='inline', button_map={'submit_download': 'warning'}) }}
 </div>
 
 <div class="annotation" style="position: absolute; left: 15%; top: 5%; width: 84%;">
