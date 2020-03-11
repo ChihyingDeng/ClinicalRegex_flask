@@ -53,6 +53,9 @@ class DataModel:
 
     def sort_data(self):
         try:
+            if any(self.input_df[self.pt_ID].isna()) or any(self.input_df[self.report_text].isna()):
+                return "Something went wrong, did you select an appropriately columns? There are empty cell in the patient/note ID or report text columns."
+            
             # move id and report text columns to front
             if not self.update_keyword:
                 input_columns = self.input_df.columns.values.tolist()
@@ -236,7 +239,7 @@ class DataModel:
             elif not isinstance(value, int):
                 value = value.astype('Int64')
             self.matches_value.append(value)
-        #import pdb; pdb.set_trace()
+
         for i in range(len(text)):
             if self.matches_display[i] != [None]:
                 prev, new_list = 0, []

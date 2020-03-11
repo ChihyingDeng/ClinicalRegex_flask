@@ -20,10 +20,11 @@ data = DataModel()
 
 @auth_bp.route('/', methods=['GET', 'POST'])
 def login_page():
-    if request.args.get('load'):
+    load = request.args.get('load')
+    if load==True:
         form = LoadForm(run_or_load = 1)
     else:
-        form = LoadForm()
+        form = LoadForm(run_or_load = 0)
 
     if request.method == 'POST':
         if form.is_submitted() and form.data['inputfile']:
@@ -78,7 +79,7 @@ def run_regex():
 
         if not data.label_name:
             msg = ''
-            pt_ID_default = data.cols_dict.get('mrn') or data.cols_dict.get('empi') or data.cols_dict.get('id')
+            pt_ID_default = data.cols_dict.get('empi') or data.cols_dict.get('id')
             report_text_default = data.cols_dict.get('report_text') or data.cols_dict.get('comments')
             form = RegexForm(pt_ID=pt_ID_default, report_text=report_text_default)
         else:
@@ -107,7 +108,6 @@ def run_regex():
 
         form.pt_ID.choices = data.cols
         form.report_text.choices = data.cols
-
         if request.method == 'POST':
             if form.is_submitted() and form.data['label1_name'] and form.data['label1_keyword']:
                 if not (form.data['label2_name'] and not form.data['label2_keyword']) and not (
@@ -125,7 +125,7 @@ def run_regex():
             return redirect(url_for('auth_bp.run_regex'))
     except:
         flash('Something went wrong')
-        return redirect(url_for('auth_bp.run_regex'))
+        return redirect(url_for('auth_bp.login_page',load=False))
 
     return render_template('regex.html', form=form, msg=msg)
 
@@ -159,7 +159,7 @@ def annotation():
             except BaseException:
                 flash('Please select the correct file to load the annotation')
                 return redirect(url_for('auth_bp.login_page', load=False))
-
+        
         if data.label_name[2]:
             form = ValueFormThree()
             data.num_label = 3
@@ -169,16 +169,13 @@ def annotation():
         else:
             form = ValueFormOne()
             data.num_label = 1
-
         if data.update_keyword or (data.is_empty() and not data.load_annotation):
             msg = data.sort_data()
-            if msg == "No keywords found!":
-                flash(msg)
-                return redirect(url_for('auth_bp.run_regex'))
-            if msg == "Something went wrong, did you select an appropriately columns or using the right format of regex?":
+            if msg != "done":
                 flash(msg)
                 return redirect(url_for('auth_bp.run_regex'))
 
+            
         # pagination
         if jump:
             start_page = int(jump) + 1
@@ -203,9 +200,7 @@ def annotation():
         header = 'Patient ID: ' if data.patient_level else 'Note ID: '
         id_text = [(header + str(data.output_df.loc[page - 1, data.pt_ID]), text)]
         data.current_row_index = page - 1
-
         data.get_matches_indices(length, text)
-
         if data.num_label > 2:
             form.label3_value.label = Label(field_id="label3_value", text=data.label_name[2])
             form.label3_value.render_kw = {"placeholder": data.matches_value[2]}
@@ -227,7 +222,6 @@ def annotation():
         value_counts = data.get_value_counts()
 
         downloadform = DownloadForm()
-
         if request.method == 'POST':
             if form.is_submitted() and form.submit_button.data:
                 data.save_matches(data.annotated_value)
@@ -246,7 +240,7 @@ def annotation():
                         as_attachment=True)
     except:
         flash('Something went wrong')
-        return redirect(url_for('auth_bp.run_regex'))
+        return redirect(url_for('auth_bp.login_page', load=False))
 
     return render_template('annotation.html', form=form, downloadform=downloadform,
                            pagination=pagination, page=page, per_page=per_page,
@@ -307,7 +301,7 @@ def update_keyword():
     try:
         if data.is_empty():
             msg = "please run regex first!"
-            pt_ID_default = data.cols_dict.get('mrn') or data.cols_dict.get('empi') or data.cols_dict.get('id')
+            pt_ID_default =  data.cols_dict.get('empi') or data.cols_dict.get('id')
             report_text_default = data.cols_dict.get('report_text') or data.cols_dict.get('comments')
             form = RegexForm(pt_ID=pt_ID_default, report_text=report_text_default)
             return redirect(url_for('auth_bp.run_regex'))
@@ -347,6 +341,6 @@ def update_keyword():
             return redirect(url_for('auth_bp.login_page', load = False))
     except:
         flash('Something went wrong')
-        return redirect(url_for('auth_bp.run_regex'))
+        return redirect(url_for('auth_bp.login_page',load=False))
 
     return render_template('regex.html', form=form, msg=msg)
