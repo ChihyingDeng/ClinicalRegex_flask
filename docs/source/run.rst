@@ -5,6 +5,7 @@ Select Files
 ^^^^^^^^^^^^
 * Please select the input file. The input file only accept RPDR(``.txt``), CSV(``.csv``), and Excel(``.xls, .xlsx``) format
 * Please enter the name of output file
+* Here's same the sample input files and output file: https://github.com/ChihyingDeng/ClinicalRegex_flask/tree/master/sample_files
 
   .. image:: img/select_file.png
      :height: 400
