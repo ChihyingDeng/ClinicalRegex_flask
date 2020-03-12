@@ -1,0 +1,77 @@
+EMPI|MRN_Type|MRN|Report_Number|MID|Report_Date_Time|Report_Description|Report_Status|Report_Type|Report_Text
+100000000|HSP|1000000|1000000|1000000|8/01/2011 12:00:00 AM|ED Discharge Summary|Final|DIS|Report Status:  FinalED DISCHARGE NOTIFICATIONThe patient presented with a chief complaint of sboFollowing evaluation and treatment, the patient's disposition at the end of thevisit was admitted as an inpatient.Please note thisinformation may have been updated on the inpatient unit.
+
+[report_end]
+100000000|HSP|1000000|2000000|1000000|8/24/2014 12:00:00 AM|ED Discharge Summary|Final|DIS|Report Status:  FinalADMISSION DATE: 07/22/2014 DISCHARGE DATE: 08/01/2011PRINCIPAL DIAGNOSISAbdominal painASSOCIATED DIAGNOSESNausea and vomiting, Malignant tumor of colonSIGNIFICANT OPERATIONS/PROCEDURES/TESTS PERFORMED DURING HOSPITALIZATIONOperations/Procedures:Placement of gastrostomy tubeLabs/Imaging/Other Tests:Radiology: KUBConsults: Palliative CareLIFE-SUSTAINING TREATMENT (CODE STATUS) AT DISCHARGELimitation of Life-sustaining Treatment. No Chest Compressions, No Defibrillation or ElectricalCardioversion, No Endotracheal Intubation, No Mechanical VentilatorALLERGIC REACTIONS, INTOLERANCES AND SENSITIVITIESLISINOPRIL (Angioedema)CHIEF COMPLAINTAbdominal pain, nauseaHISTORY AND REASON FOR HOSPITALIZATION AND SIGNIFICANT FINDINGS
+He was admitted from inthe setting of a rapidly resolving small bowel obstruction but soonafter returning home, he noted rapid recurrence of his symtomsthough not as severe. He reports eating some potatoes and macaronion the day of his discharge home, but since then his nausea andabdominal pain have made it too difficult to eat. He notes mostlyright sided pain. He notes some emesis without hematemesis. He notesome liquid stool and gas in his ostomy since discharge home. Patient partial SBO
+resolved and he was feeling better.  However, he developed bacteremia
+that was treated but difficult to fully control given multiple
+hepatic abscesses that were likely the cause and could not be drained.
+
+SW/Palliative Care were consulted and followed.  Infection was
+treated as above.  He was given symptomatic care with PRN Zofran,
+Compazine, and Ativan.  Reglan was added for nausea and to aide in
+digestions. Ritalin was added for fatigue.  Patient also had left
+biliary catheter rescue with placement of 10 F biliary drain placed
+and routine exchange of right biliary catheter - 10 F on 8/18. After a long goals of care 
+discussion during a family meeting, the decision was made to discharge home with hospice.
+Patient and family understand that his multiple liver abscesses are resistent and
+difficult to treat especially in the setting of not being able to
+drain.  Patient expressed his wish to be home not to pursue further
+drainage of the abscess with percutaneous drains placed by IR.  He
+understands that there is a risk of recurrent sepsis with this
+approach.  Decision was thus made for discharge to home with hospice
+services.ROSSee aboveotherwise a review of 10 systems grossly negativeMEDICAL HISTORYMetastatic colon cancerS/P cardiac valve  hypertensionhypothyroidismS/P wound infection  S/P repair disection thoraic aneurysmProstate cancerCerebrovascular accidentCoronary arteriosclerosisSOCIAL HISTORYRemote smokerNo active EtOHFAMILY HISTORYReviewed and noncontributoryALLERGIESLisinoprilCONDITION ON DISCHARGEStableDISCHARGE MEDICATIONSTamsulosin 0.4 MG PO QDMirtazapine (Remeron) 15 MG PO QHS (last dose: 07/29/2014 10:27 PM)Olanzapine Odt (Zyprexa Zydis) (Zyprexa Zydis ) 5 MG PO TID prn [Insomnia, nausea, anxiety ] (last dose: 08/01/2014 09:44 PM)Rx: 5 MG TAB RAPDIS 1 TAB RAPDIS TID Dispense: 90 Tablet(s) Refills: 0Take 5 mg nightly before bed. If needed, can use an additional 2.5-5mg twice during the day for nausea or anxietyLevetiracetam (Keppra) 750 MG PO BIDEnoxaparin (Treatment) (Lovenox (Treatment) ) 80 MG SC Q12H (lastdose: 08/05/2014 07:29 AM)Rx: 80 MG Q12H Dispense: 60 Prefilled syringes Refills: 0Hydromorphone 0.5 Mg/ml PCALevothyroxine Sodium (Levoxyl) 225 MCG PO QDDexamethasone 8 MG PO QDRx: 4 MG TABLET 2 Tablet(s) QD Dispense: 60 Tablet(s) Refills: 0Potassium Chloride Er Capsule 40 MEQ PO QDRx: 40 MEQ QD Dispense: 30 Capsule(s) Refills: 0Clamp g-tube for 20 minutes after swallowing to allow for absorptionThe Rx icon reflects prescriptions written at the time of discharge, hencedoes not indicate whether the patients received or filled theprescription.VaccinesThe Pneumovax vaccine was not given during this admission. Please consultwith your PCP regarding vaccinations.DISCHARGE INSTRUCTIONSDiet: Clear liquidsActivity: Activity as toleratedTreatment: At the time of discharge, your care will transition tohospice services. 1. Using G-tube: The g-tube is there in place of the previousnasogastric tube. It allows your stomach to drain, preventing nausea,vomiting and abdominal pain. You should not eat or drink anythinglarger than the tube in order to prevent obstructions (for example,liquids and thin purees are okay). When you take a medicine, swallowit with a sip of water and "clamp" "turn off" your g-tube for 20minutes. This allows the medicine to absorb. After 20 minutes, "open""turn on" the g-tube up and let the fluid drain out.2. Fluid and Electrolytes: Take potassium powder as prescribed daily.Mix this in a small glass of fluid. Again, clamp your tube while itabsorbs. The hospice nurse will assess you daily and may recommendintravenous fluids. You may need intravenous fluids NS 1 L twice perweek.3. Pain: Your PCA will be used for pain relief. Your hospice nurse isavailable to adjust this as needed.4. **Lovenox**- This is very important. You are being discharged on ablood thinner. However, you are also at high risk for bleeding. Ifyou notice any bloody drainage from your g-tube, dark colored stoolsor other signs of bleeding, call the hospice nurse and STOP YOURLOVENOX5. Other symptoms: Zyprexa is a new medication for you which can beused for insomnia, nausea and anxiety. Use 1 tab before bed eachnight. In addition, you can use 1/2 tab to 1 full tab twice duringthe day if needed. Place the tab under your tongue and allow it todissolve.POST-DISCHARGE GOALSContinuity of Care: Please attend all scheduled appointmentsSERVICESHospice Service - Evaluate and Treat Accordingly
+
+[report_end]
+100000000|HSP|1000000|3000000|1000000|8/24/2014 12:00:00 AM|ED Discharge Summary|Final|DIS|Associated Diagnosis
+HOSPITAL COURSE AND TREATMENT
+Patient is with AI s/p St. Jude AVR, on
+therapeutic lovenox, aortic dissection s/p aortic root
+replacement, seizure d/o, CVA (no residual), prostate cancer,
+hypothyoridism, and metastatic colon cancer who is admitted with recurrent
+abdominal pain and nausea.
+
+1. Abdominal pain/Nausea Vomiting: KUB showed distal partial small
+bowel obstruction.  Etiology thought
+likely mechanical given the location and his known metastatic disease.
+ Ostomy continued to pass small amounts of stool and flatus but
+abdomen was moderately distended. NGT placement on admission was
+attempted but was unsucessful. Given that he was not vomiting at that
+time, placement was not reattempted. Pt was seen by surgery
+who recommended a conservative approach. Trialed Reglan but this
+increased abdominal cramping so was stopped. Diet was slowly advanced.
+Abdominal pain became worse. An NGT was placed at this time
+and put out large quantities of bilious fluid.  Due to repetitive and
+painful nature of his obstructions, IR was consulted for G-tube
+placement. Patient able to tolerate sips of clears and clamping g-tube for occasional oral medications at the time of discharge. Due to patient's frequent need for PRN IV pain
+medications and inability to tolerate frequent oral medications, a
+Dilaudid PCA was started on per Palliative Care.
+
+
+5. Seizure: Continued keppra
+
+6. Metastatic colon cancer: Patient and his wife acknowledge that he has
+only become worse with chemotherapy. In addition, nutrition is
+compromised with nonfunctioning GI tract. Palliative care followed throughout admission and was extremely helpful. Pallcare met withp atient and his wife HCP to discuss GOC
+discuss lack of meaningful treatment options. Family considered
+inpatient hospice but wanted to try hospice at home first.
+
+7. Pneumonia: Pt developed a new O2 requirement.
+RA O2 sat was measured to be 85% so he was placed on O2 via nasal
+cannula. CXR was obtained and showed "interval development of patchy
+right lower lung zone opacity which may represent pneumonia,
+aspiration, or atelectasis." He was afebrile but was on steroids.
+HCAP treatment was started with Zosyn and Vancomycin. O2 weaned to
+room air on 8/1. Respiratory culture showed few enteric GNRs.
+Vancomycin was stopped 8/2. Zosyn continued until discharge on 8/5/14.
+
+
+DISPO: Pt was discharged with home hospice (Care
+Dimensions) on 8/5/14. Rx given for new medications (dilaudid PCA,
+zyprexa, decadron, potassium, lovenox lower dose) and hospice will
+coordinate subsequent needs. Patient may need IVF twice weekly at
+home, Care Dimensions is aware and will be able to provide. Teaching
+regarding g-tube, PCA, diet, monitoring for bleeding and end of life
+issues was done with patient and his wife.
+[report_end]
