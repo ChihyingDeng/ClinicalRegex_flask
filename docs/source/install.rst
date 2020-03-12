@@ -15,12 +15,17 @@ Install Docker Desktop
 
 Start Docker Desktop
 ^^^^^^^^^^^^^^^^^^^^
-* When the installation finishes, Docker starts automatically. 
-  If not, please go to Application and double-click the Docker app
+* When the installation finishes, Docker starts automatically. If the docker is opened, you could find the logo on the top-right of your computer.
+
+  .. image:: img/open_docker.png
+     :height: 24
+     :width: 480
+
+* If not, please go to Application and double-click the Docker app
 
   .. image:: img/application.png
-     :height: 283
-     :width: 500
+     :height: 272
+     :width: 480
 
 Open Command-line interface
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^

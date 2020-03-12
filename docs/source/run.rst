@@ -13,7 +13,8 @@ Select Files
 
 Run Regex
 ^^^^^^^^^
-* Please select the columns for patient/note ID and the report text.
+* Please select the columns for ``patient ID`` when you on patient level; select the columns for ``note ID`` when you on note level (unselected patient level).
+* Please select the columns for report text.
 * Please enter the label name and the keyword set for the labels. You could only have one label and leave label 2 and label 3 blank.
 * The keyword should be separated by ``,``.
 * The report text will be lemmatized. For example, if you enter the keyword 'test', it will capture all the words like "test, tests, tested, testing'. If you only want to capture the word "test", please enter ``(test)``.
