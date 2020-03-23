@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import os
 from flask import redirect, render_template, flash, Blueprint, request, url_for, send_file, send_from_directory
 from flask import current_app as app
@@ -79,8 +80,9 @@ def run_regex():
 
         if not data.label_name:
             msg = ''
-            pt_ID_default = data.cols_dict.get('empi') or data.cols_dict.get('id')
-            report_text_default = data.cols_dict.get('report_text') or data.cols_dict.get('comments')
+            pt_ID_default = data.cols_dict.get('empi') or data.cols_dict.get('id') or data.cols_dict.get('row_id')
+            report_text_default = data.cols_dict.get('report_text') or data.cols_dict.get(
+                'comments') or data.cols_dict.get('text')
             form = RegexForm(pt_ID=pt_ID_default, report_text=report_text_default)
         else:
             msg = "The output file will be overwritten!!"
@@ -108,6 +110,7 @@ def run_regex():
 
         form.pt_ID.choices = data.cols
         form.report_text.choices = data.cols
+
         if request.method == 'POST':
             if form.is_submitted() and form.data['label1_name'] and form.data['label1_keyword']:
                 if not (form.data['label2_name'] and not form.data['label2_keyword']) and not (
@@ -158,6 +161,7 @@ def annotation():
                     if 3 * i + 5 < len(cols) and 'L%d_' % (i + 1) in cols[3 * i + 2]:
                         data.label_name[i] = cols[3 * i + 2][3:]
                         data.phrases[i] = data.output_df.loc[i + 1, 'keywords']
+                        data.allphrases.extend(data.phrases[i].split(','))
                         data.num_label = i + 1
                     else:
                         break
@@ -184,7 +188,7 @@ def annotation():
         if jump:
             start_page = int(jump) + 1
         elif data.load_annotation or data.update_keyword:
-            start_page = int(data.output_df.loc[data.num_label + 1, 'keywords']) + 2
+            start_page = int(data.output_df.loc[data.num_label + 1, 'keywords']) + 1
         else:
             start_page = 1
 
@@ -199,9 +203,11 @@ def annotation():
 
         # display report text on html
         if data.patient_level:
-            data.output_df.loc[page -
-                               1, data.report_text] = data.combine_keywords_notes(data.output_df.loc[page -
-                                                                                                     1, data.report_text])
+            anno_value = data.output_df.loc[page - 1, 'L1_' + data.label_name[0]]
+            if not anno_value or np.isnan(anno_value):
+                data.output_df.loc[page -
+                                   1, data.report_text] = data.combine_keywords_notes(data.output_df.loc[page -
+                                                                                                         1, data.report_text])
         text = data.output_df.loc[page - 1, data.report_text].split('\n')
         length = [len(text[0]) + 1]
         for i in range(1, len(text)):
@@ -312,8 +318,9 @@ def update_keyword():
     try:
         if data.is_empty():
             msg = "please run regex first!"
-            pt_ID_default = data.cols_dict.get('empi') or data.cols_dict.get('id')
-            report_text_default = data.cols_dict.get('report_text') or data.cols_dict.get('comments')
+            pt_ID_default = data.cols_dict.get('empi') or data.cols_dict.get('id') or data.cols_dict.get('row_id')
+            report_text_default = data.cols_dict.get('report_text') or data.cols_dict.get(
+                'comments') or data.cols_dict.get('text')
             form = RegexForm(pt_ID=pt_ID_default, report_text=report_text_default)
             return redirect(url_for('auth_bp.run_regex'))
         data.annotated_value = None
