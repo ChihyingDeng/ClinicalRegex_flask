@@ -21,10 +21,10 @@ data = DataModel()
 @auth_bp.route('/', methods=['GET', 'POST'])
 def login_page():
     load = request.args.get('load')
-    if load==True:
-        form = LoadForm(run_or_load = 1)
+    if load:
+        form = LoadForm(run_or_load=1)
     else:
-        form = LoadForm(run_or_load = 0)
+        form = LoadForm(run_or_load=0)
 
     if request.method == 'POST':
         if form.is_submitted() and form.data['inputfile']:
@@ -41,7 +41,7 @@ def login_page():
                     if file_type == 'txt':
                         if data.rpdr_to_csv() == 'error':
                             flash('Invalid RPDR file')
-                            return redirect(url_for('auth_bp.login_page',load=False))
+                            return redirect(url_for('auth_bp.login_page', load=False))
                     elif file_type == 'csv':
                         data.input_df = pd.read_csv(data.input_fname)
                     else:
@@ -58,7 +58,7 @@ def login_page():
                                          attachment_filename=data.input_fname.split('/')[-1], as_attachment=True)
                 except BaseException:
                     flash('Invalid file')
-                    return redirect(url_for('auth_bp.login_page',load=False))
+                    return redirect(url_for('auth_bp.login_page', load=False))
 
     return render_template('login.html',
                            form=form,
@@ -86,25 +86,25 @@ def run_regex():
             msg = "The output file will be overwritten!!"
             if data.num_label == 1:
                 form = RegexForm(pt_ID=data.cols_dict[data.pt_ID],
-                                report_text=data.cols_dict[data.report_text],
-                                label1_name=data.label_name[0],
-                                label1_keyword=data.phrases[0])
+                                 report_text=data.cols_dict[data.report_text],
+                                 label1_name=data.label_name[0],
+                                 label1_keyword=data.phrases[0])
             elif data.num_label == 2:
                 form = RegexForm(pt_ID=data.cols_dict[data.pt_ID],
-                                report_text=data.cols_dict[data.report_text],
-                                label1_name=data.label_name[0],
-                                label1_keyword=data.phrases[0],
-                                label2_name=data.label_name[1],
-                                label2_keyword=data.phrases[1])
+                                 report_text=data.cols_dict[data.report_text],
+                                 label1_name=data.label_name[0],
+                                 label1_keyword=data.phrases[0],
+                                 label2_name=data.label_name[1],
+                                 label2_keyword=data.phrases[1])
             else:
                 form = RegexForm(pt_ID=data.cols_dict[data.pt_ID],
-                                report_text=data.cols_dict[data.report_text],
-                                label1_name=data.label_name[0],
-                                label1_keyword=data.phrases[0],
-                                label2_name=data.label_name[1],
-                                label2_keyword=data.phrases[1],
-                                label3_name=data.label_name[2],
-                                label3_keyword=data.phrases[2])
+                                 report_text=data.cols_dict[data.report_text],
+                                 label1_name=data.label_name[0],
+                                 label1_keyword=data.phrases[0],
+                                 label2_name=data.label_name[1],
+                                 label2_keyword=data.phrases[1],
+                                 label3_name=data.label_name[2],
+                                 label3_keyword=data.phrases[2])
 
         form.pt_ID.choices = data.cols
         form.report_text.choices = data.cols
@@ -117,22 +117,27 @@ def run_regex():
                     data.report_text = cols[form.data['report_text']]
                     data.patient_level = form.data['patient_level']
                     data.positive_hit = form.data['positive_hit']
-                    data.phrases = [form.data['label1_keyword'], form.data['label2_keyword'], form.data['label3_keyword']]
+                    data.lemmatization = form.data['lemmatization']
+                    data.phrases = [
+                        form.data['label1_keyword'],
+                        form.data['label2_keyword'],
+                        form.data['label3_keyword']]
                     data.label_name = [form.data['label1_name'], form.data['label2_name'], form.data['label3_name']]
+                    data.update_keyword = False
                     return redirect(url_for('auth_bp.annotation', jump=None))
 
             flash('Please enter the name and keywords of label')
             return redirect(url_for('auth_bp.run_regex'))
-    except:
+    except BaseException:
         flash('Something went wrong')
-        return redirect(url_for('auth_bp.login_page',load=False))
+        return redirect(url_for('auth_bp.login_page', load=False))
 
     return render_template('regex.html', form=form, msg=msg)
 
 
 @auth_bp.route('/annotation', methods=('GET', 'POST'))
 def annotation():
-    try: 
+    try:
         if not data.save and data.annotated_value:
             data.save_matches(data.annotated_value)
         data.save = False
@@ -159,7 +164,7 @@ def annotation():
             except BaseException:
                 flash('Please select the correct file to load the annotation')
                 return redirect(url_for('auth_bp.login_page', load=False))
-        
+
         if data.label_name[2]:
             form = ValueFormThree()
             data.num_label = 3
@@ -175,7 +180,6 @@ def annotation():
                 flash(msg)
                 return redirect(url_for('auth_bp.run_regex'))
 
-            
         # pagination
         if jump:
             start_page = int(jump) + 1
@@ -193,6 +197,11 @@ def annotation():
                                 per_page=per_page, css_framework='bootstrap3',
                                 inner_window=5, outer_window=0)
 
+        # display report text on html
+        if data.patient_level:
+            data.output_df.loc[page -
+                               1, data.report_text] = data.combine_keywords_notes(data.output_df.loc[page -
+                                                                                                     1, data.report_text])
         text = data.output_df.loc[page - 1, data.report_text].split('\n')
         length = [len(text[0]) + 1]
         for i in range(1, len(text)):
@@ -201,6 +210,8 @@ def annotation():
         id_text = [(header + str(data.output_df.loc[page - 1, data.pt_ID]), text)]
         data.current_row_index = page - 1
         data.get_matches_indices(length, text)
+
+        # set default annotation values
         if data.num_label > 2:
             form.label3_value.label = Label(field_id="label3_value", text=data.label_name[2])
             form.label3_value.render_kw = {"placeholder": data.matches_value[2]}
@@ -211,13 +222,13 @@ def annotation():
             form.label1_value.label = Label(field_id="label1_value", text=data.label_name[0])
             form.label1_value.render_kw = {"placeholder": data.matches_value[0]}
 
+        # get annotation values
         if data.num_label > 0:
             value = [data.matches_value[0]] if not form.data['label1_value'] else [form.data['label1_value']]
         if data.num_label > 1:
             value.append(data.matches_value[1] if not form.data['label2_value'] else form.data['label2_value'])
         if data.num_label > 2:
             value.append(data.matches_value[2] if not form.data['label3_value'] else form.data['label3_value'])
-
         data.annotated_value = value
         value_counts = data.get_value_counts()
 
@@ -230,15 +241,15 @@ def annotation():
             if downloadform.validate_on_submit() and downloadform.submit_download.data:
                 if downloadform.data['with_report']:
                     return send_file('../output/' + data.output_fname,
-                        mimetype='text/csv',
-                        attachment_filename=data.output_fname,
-                        as_attachment=True)
+                                     mimetype='text/csv',
+                                     attachment_filename=data.output_fname,
+                                     as_attachment=True)
                 else:
                     return send_file('../output/noreport_' + data.output_fname,
-                        mimetype='text/csv',
-                        attachment_filename='noreport_' + data.output_fname,
-                        as_attachment=True)
-    except:
+                                     mimetype='text/csv',
+                                     attachment_filename='noreport_' + data.output_fname,
+                                     as_attachment=True)
+    except BaseException:
         flash('Something went wrong')
         return redirect(url_for('auth_bp.login_page', load=False))
 
@@ -288,7 +299,7 @@ def value_counts():
                 data.search_value = valueform.data['value']
                 value_counts = data.get_value_counts()
                 return redirect(url_for('auth_bp.value_counts'))
-    except:
+    except BaseException:
         flash('Something went wrong')
         return redirect(url_for('auth_bp.run_regex'))
 
@@ -301,7 +312,7 @@ def update_keyword():
     try:
         if data.is_empty():
             msg = "please run regex first!"
-            pt_ID_default =  data.cols_dict.get('empi') or data.cols_dict.get('id')
+            pt_ID_default = data.cols_dict.get('empi') or data.cols_dict.get('id')
             report_text_default = data.cols_dict.get('report_text') or data.cols_dict.get('comments')
             form = RegexForm(pt_ID=pt_ID_default, report_text=report_text_default)
             return redirect(url_for('auth_bp.run_regex'))
@@ -309,28 +320,28 @@ def update_keyword():
         data.update_keyword = True
         if data.num_label == 1:
             form = UpdateForm(pt_ID=data.cols_dict[data.pt_ID],
-                            report_text=data.cols_dict[data.report_text],
-                            label1_name=data.label_name[0],
-                            label1_keyword=data.phrases[0])
+                              report_text=data.cols_dict[data.report_text],
+                              label1_name=data.label_name[0],
+                              label1_keyword=data.phrases[0])
             form.label2_keyword.render_kw = {"placeholder": "", 'readonly': True}
             form.label3_keyword.render_kw = {"placeholder": "", 'readonly': True}
         elif data.num_label == 2:
             form = UpdateForm(pt_ID=data.cols_dict[data.pt_ID],
-                            report_text=data.cols_dict[data.report_text],
-                            label1_name=data.label_name[0],
-                            label1_keyword=data.phrases[0],
-                            label2_name=data.label_name[1],
-                            label2_keyword=data.phrases[1])
+                              report_text=data.cols_dict[data.report_text],
+                              label1_name=data.label_name[0],
+                              label1_keyword=data.phrases[0],
+                              label2_name=data.label_name[1],
+                              label2_keyword=data.phrases[1])
             form.label3_keyword.render_kw = {"placeholder": "", 'readonly': True}
         else:
             form = UpdateForm(pt_ID=data.cols_dict[data.pt_ID],
-                            report_text=data.cols_dict[data.report_text],
-                            label1_name=data.label_name[0],
-                            label1_keyword=data.phrases[0],
-                            label2_name=data.label_name[1],
-                            label2_keyword=data.phrases[1],
-                            label3_name=data.label_name[2],
-                            label3_keyword=data.phrases[2])
+                              report_text=data.cols_dict[data.report_text],
+                              label1_name=data.label_name[0],
+                              label1_keyword=data.phrases[0],
+                              label2_name=data.label_name[1],
+                              label2_keyword=data.phrases[1],
+                              label3_name=data.label_name[2],
+                              label3_keyword=data.phrases[2])
 
         msg = "The annotation values you have made won't be changed, please go back and make sure the annotation values are correct if necessary!!"
         if request.method == 'POST':
@@ -338,9 +349,9 @@ def update_keyword():
                 data.phrases = [form.data['label1_keyword'], form.data['label2_keyword'], form.data['label3_keyword']]
                 return redirect(url_for('auth_bp.annotation', jump=None))
             flash('Something went wrong')
-            return redirect(url_for('auth_bp.login_page', load = False))
-    except:
+            return redirect(url_for('auth_bp.login_page', load=False))
+    except BaseException:
         flash('Something went wrong')
-        return redirect(url_for('auth_bp.login_page',load=False))
+        return redirect(url_for('auth_bp.login_page', load=False))
 
     return render_template('regex.html', form=form, msg=msg)

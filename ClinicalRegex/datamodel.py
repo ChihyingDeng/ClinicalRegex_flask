@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import bisect
 import spacy
+import time
 nlp = spacy.load('en_core_web_sm', disable=['parser', 'ner'])
 nlp.max_length = 3000000
 
@@ -47,6 +48,7 @@ class DataModel:
         self.load_annotation = False
         self.save = True
         self.update_keyword = False
+        self.lemmatization = False
 
     def is_empty(self):
         return self.output_df.empty
@@ -55,7 +57,7 @@ class DataModel:
         try:
             if any(self.input_df[self.pt_ID].isna()) or any(self.input_df[self.report_text].isna()):
                 return "Something went wrong, did you select an appropriately columns? There are empty cell in the patient/note ID or report text columns."
-            
+
             # move id and report text columns to front
             if not self.update_keyword:
                 input_columns = self.input_df.columns.values.tolist()
@@ -102,49 +104,45 @@ class DataModel:
                     self.output_df.insert(3 * i + 3, 'L%d_' % (i + 1) + self.label_name[i] + '_span', [None] * length)
                     self.output_df.insert(3 * i + 4, 'L%d_' % (i + 1) + self.label_name[i] + '_text', [None] * length)
 
-            # Lemmatization and update phrases
-            lemma_phrases, lemma_phrases_dict = [], {}
-            for i in range(self.num_label):
-                update_phrases = []
-                for phrase in self.phrases[i].split(','):
-                    doc = nlp(phrase.lower())
-                    # don't lemmatize the phrases when phrases containing regular expression
-                    if not re.search(r'[^\w\s/]', phrase):
-                        lemma = ' '.join([token.lemma_ for token in doc])
-                    else:
-                        lemma = phrase
-                    update_phrases.append(lemma)
-                    lemma_phrases_dict[lemma] = {phrase.lower(), lemma}
-                lemma_phrases.extend(update_phrases)
-                self.phrases[i] = ','.join(update_phrases)
+            if self.lemmatization:
+                # Lemmatization and update phrases
+                lemma_phrases, lemma_phrases_dict = [], {}
+                for i in range(self.num_label):
+                    update_phrases = []
+                    for phrase in self.phrases[i].split(','):
+                        doc = nlp(phrase.lower())
+                        # don't lemmatize the phrases when phrases containing regular expression
+                        if not re.search(r'[^\w\s/]', phrase):
+                            lemma = ' '.join([token.lemma_ for token in doc])
+                        else:
+                            lemma = phrase
+                        update_phrases.append(lemma)
+                        lemma_phrases_dict[lemma] = {phrase.lower(), lemma}
+                    lemma_phrases.extend(update_phrases)
+                    self.phrases[i] = ','.join(update_phrases)
 
-            # update lemma_phrases_dict
-            text = self.output_df[self.report_text].str.cat(sep=' ')
-            text = re.sub(r'[^\w\s]|[\d_]', '', text)
-            doc = nlp(' '.join(set(text.lower().replace('\n', ' ').split(' '))))
-            for token in doc:
-                if token.lemma_ in lemma_phrases:
-                    lemma_phrases_dict[token.lemma_].add(token.text)
-            for i in range(self.num_label):
-                update_phrases = []
-                for phrase in self.phrases[i].split(','):
-                    if len(lemma_phrases_dict[phrase]) > 1:
-                        update_phrases.append('(' + '|'.join(lemma_phrases_dict[phrase]) + ')')
-                    else:
-                        update_phrases.append(''.join(lemma_phrases_dict[phrase]))
-                self.allphrases.extend(update_phrases)
-                self.phrases[i] = ','.join(update_phrases)
+                # update lemma_phrases_dict
+                text = self.output_df[self.report_text].str.cat(sep=' ')
+                text = re.sub(r'[^\w\s]|[\d_]', '', text)
+                doc = nlp(' '.join(set(text.lower().replace('\n', ' ').split(' '))))
+                for token in doc:
+                    if token.lemma_ in lemma_phrases:
+                        lemma_phrases_dict[token.lemma_].add(token.text)
+                for i in range(self.num_label):
+                    update_phrases = []
+                    for phrase in self.phrases[i].split(','):
+                        if len(lemma_phrases_dict[phrase]) > 1:
+                            update_phrases.append('(' + '|'.join(lemma_phrases_dict[phrase]) + ')')
+                        else:
+                            update_phrases.append(''.join(lemma_phrases_dict[phrase]))
+                    self.allphrases.extend(update_phrases)
+                    self.phrases[i] = ','.join(update_phrases)
 
-            if self.patient_level:
-                self.output_df[self.report_text] = self.output_df[self.report_text].apply(
-                    lambda x: self._combine_keywords_notes(x))
-                self.output_df['regex'] = self.output_df[self.report_text].apply(
-                    lambda x: 0 if "No keywords found!" in x else 1)
-            else:
-                self.output_df['regex'] = self.output_df[self.report_text].apply(lambda x: self._search_keywords(x))
-                if all(self.output_df['regex'] == 0):
-                    self.output_df['regex'] = 1
-                    return "No keywords found!"
+            # search keywords set
+            self.output_df['regex'] = self.output_df[self.report_text].apply(lambda x: self._search_keywords(x))
+            if all(self.output_df['regex'] == 0):
+                self.output_df['regex'] = 1
+                return "No keywords found!"
 
             if self.update_keyword:
                 annotated_id = annotated_df[self.pt_ID].tolist()
@@ -186,7 +184,7 @@ class DataModel:
                 return 1
         return 0
 
-    def _combine_keywords_notes(self, text):
+    def combine_keywords_notes(self, text):
         output = []
         for t in text.split('[Header_Start]'):
             header = '%s\n%s\n%s\n' % ('=' * 100, t.split('[Header_End]')[0], '=' * 100)

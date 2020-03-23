@@ -17,10 +17,11 @@ Run Regex
 * Please select the columns for report text.
 * Please enter the label name and the keyword set for the labels. You could only have one label and leave label 2 and label 3 blank.
 * The keyword should be separated by ``,``.
-* The report text will be lemmatized. For example, if you enter the keyword 'test', it will capture all the words like "test, tests, tested, testing'. If you only want to capture the word "test", please enter ``(test)``.
 * You could also use regular expression in the keyword, but when you are using Regex, it won't apply lemmatization automatically.
 * If ``Patient level`` is selected, the program will search all the notes belong to a patient and combine the text around the keyword together.
 * If ``Display notes with keywords only`` is selected, the program will only display the notes/patients with keyword found, but the output file will still include all the notes/patients.
+* If ``Lemmatization`` is selected, the report text will be lemmatized. For example, if you enter the keyword 'test', it will capture all the words including "test, tests, tested, testing'. If you only want to capture the word "test", please enter ``(test)``.
+* If ``Patient level`` and/or ``Lemmatization`` are selected, it will slightly increase the processing time, please be patient!
 
   .. image:: img/run_regex_keywords.png
      :height: 399 
