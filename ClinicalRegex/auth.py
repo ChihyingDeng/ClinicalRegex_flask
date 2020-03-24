@@ -203,11 +203,9 @@ def annotation():
 
         # display report text on html
         if data.patient_level:
-            anno_value = data.output_df.loc[page - 1, 'L1_' + data.label_name[0]]
-            if not anno_value or np.isnan(anno_value):
-                data.output_df.loc[page -
-                                   1, data.report_text] = data.combine_keywords_notes(data.output_df.loc[page -
-                                                                                                         1, data.report_text])
+            report = data.output_df.loc[page - 1, data.report_text]
+            if '[Header_Start]' in report:
+                data.output_df.loc[page - 1, data.report_text] = data.combine_keywords_notes(report)
         text = data.output_df.loc[page - 1, data.report_text].split('\n')
         length = [len(text[0]) + 1]
         for i in range(1, len(text)):
