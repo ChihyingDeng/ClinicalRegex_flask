@@ -151,7 +151,8 @@ def annotation():
             data.phrases, data.label_name = [''] * 3, [''] * 3
             data.output_df = data.input_df
             cols = data.output_df.columns.values.tolist()
-            if 'L1_' not in cols[2] or '_span' not in cols[3] or '_text' not in cols[4] or 'keywords' not in cols[-1]:
+            print(cols)
+            if 'L1_' not in cols[2] or '_span' not in cols[3] or '_text' not in cols[4] or 'keywords' not in cols:
                 flash('Please select the correct file to load the annotation')
                 return redirect(url_for('auth_bp.login_page'))
             data.pt_ID, data.report_text = cols[:2]
@@ -183,7 +184,7 @@ def annotation():
             if msg != "done":
                 flash(msg)
                 return redirect(url_for('auth_bp.run_regex'))
-
+        
         # pagination
         if jump:
             start_page = int(jump) + 1
@@ -208,8 +209,10 @@ def annotation():
                 data.output_df.loc[page - 1, data.report_text] = data.combine_keywords_notes(report)
         text = data.output_df.loc[page - 1, data.report_text].split('\n')
         length = [len(text[0]) + 1]
+
         for i in range(1, len(text)):
             length.append(len(text[i]) + 1 + length[i - 1])
+
         header = 'Patient ID: ' if data.patient_level else 'Note ID: '
         id_text = [(header + str(data.output_df.loc[page - 1, data.pt_ID]), text)]
         data.current_row_index = page - 1

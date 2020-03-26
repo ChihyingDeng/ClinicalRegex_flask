@@ -1,11 +1,9 @@
 from .extract_values import run_regex
 import re
 import os
-import numpy as np
 import pandas as pd
 import bisect
 import spacy
-import time
 nlp = spacy.load('en_core_web_sm', disable=['parser', 'ner'])
 nlp.max_length = 3000000
 
@@ -232,8 +230,10 @@ class DataModel:
             self.matches_text.append(match_indices)
 
             value = self.output_df.at[self.current_row_index, "L%d_" % (i + 1) + self.label_name[i]]
-            if not value or np.isnan(value):
+            if not value or pd.isnull(value):
                 value = 1 if match_indices else 0
+            elif isinstance(value, str):
+                value = int(value)
             elif not isinstance(value, int):
                 value = value.astype('Int64')
             self.matches_value.append(value)
