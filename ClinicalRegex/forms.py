@@ -78,3 +78,7 @@ class DownloadForm(FlaskForm):
 class ValueForm(FlaskForm):
     value = IntegerField('Value', validators=[DataRequired()], render_kw={"placeholder": "1"})
     submit_value = SubmitField('Refresh')
+
+class Zoom(FlaskForm):
+    submit_zoom_in = SubmitField('+')
+    submit_zoom_out = SubmitField('-')

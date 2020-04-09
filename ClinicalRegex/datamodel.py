@@ -47,14 +47,17 @@ class DataModel:
         self.save = True
         self.update_keyword = False
         self.lemmatization = False
+        self.font_size = 10
 
     def is_empty(self):
         return self.output_df.empty
 
     def sort_data(self):
         try:
-            if any(self.input_df[self.pt_ID].isna()) or any(self.input_df[self.report_text].isna()):
-                return "Something went wrong, did you select an appropriately columns? There are empty cell in the patient/note ID or report text columns."
+            if any(self.input_df[self.pt_ID].isna()):
+                self.input_df = self.input_df[~self.input_df[self.pt_ID].isna()].reset_index(drop=True)
+            if any(self.input_df[self.report_text].isna()):
+                self.input_df = self.input_df[~self.input_df[self.report_text].isna()].reset_index(drop=True)
 
             # move id and report text columns to front
             if not self.update_keyword:

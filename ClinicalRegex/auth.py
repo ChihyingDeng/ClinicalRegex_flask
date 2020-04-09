@@ -6,7 +6,7 @@ from flask import current_app as app
 from flask_bootstrap import Bootstrap
 from flask_paginate import Pagination, get_page_parameter, get_per_page_parameter, get_page_args
 from wtforms.fields import Label
-from .forms import LoadForm, RegexForm, UpdateForm, ValueFormOne, ValueFormTwo, ValueFormThree, DownloadForm, ValueForm
+from .forms import LoadForm, RegexForm, UpdateForm, ValueFormOne, ValueFormTwo, ValueFormThree, DownloadForm, ValueForm, Zoom
 from .datamodel import DataModel
 
 bootstrap = Bootstrap(app)
@@ -47,6 +47,7 @@ def login_page():
                         data.input_df = pd.read_csv(data.input_fname)
                     else:
                         data.input_df = read_excel(data.input_fname)
+                    data.input_df.columns = map(str.lower, data.input_df.columns)
                     data.output_fname = request.form.get('outputfile')
                     if form.data['run_or_load'] == 0:  # Run Regex
                         return redirect(url_for('auth_bp.run_regex'))
@@ -75,14 +76,13 @@ def run_regex():
     try:
         if not data.cols_dict:
             cols = data.input_df.columns.values.tolist()
-            data.cols_dict = {col.lower(): idx for idx, col in enumerate(cols)}
-            data.cols = [(idx, col.lower()) for idx, col in enumerate(cols)]
+            data.cols_dict = {col: idx for idx, col in enumerate(cols)}
+            data.cols = [(idx, col) for idx, col in enumerate(cols)]
 
         if not data.label_name:
             msg = ''
-            pt_ID_default = data.cols_dict.get('empi') or data.cols_dict.get('id') or data.cols_dict.get('row_id')
-            report_text_default = data.cols_dict.get('report_text') or data.cols_dict.get(
-                'comments') or data.cols_dict.get('text')
+            pt_ID_default = data.cols_dict.get('empi') or data.cols_dict.get('id') or data.cols_dict.get('subject_id')
+            report_text_default = data.cols_dict.get('report_text') or data.cols_dict.get('comments') or data.cols_dict.get('text')
             form = RegexForm(pt_ID=pt_ID_default, report_text=report_text_default)
         else:
             msg = "The output file will be overwritten!!"
@@ -240,6 +240,8 @@ def annotation():
         value_counts = data.get_value_counts()
 
         downloadform = DownloadForm()
+        zoom = Zoom()
+
         if request.method == 'POST':
             if form.is_submitted() and form.submit_button.data:
                 data.save_matches(data.annotated_value)
@@ -256,14 +258,20 @@ def annotation():
                                      mimetype='text/csv',
                                      attachment_filename='noreport_' + data.output_fname,
                                      as_attachment=True)
+            if zoom.is_submitted():
+                if zoom.submit_zoom_in.data and data.font_size < 20: data.font_size += 2
+                if zoom.submit_zoom_out.data and data.font_size >4: data.font_size -=2
+                return redirect(url_for('auth_bp.annotation', jump=page-1))
+           
+
     except BaseException:
         flash('Something went wrong')
         return redirect(url_for('auth_bp.login_page', load=False))
 
-    return render_template('annotation.html', form=form, downloadform=downloadform,
+    return render_template('annotation.html', form=form, downloadform=downloadform, zoom=zoom,
                            pagination=pagination, page=page, per_page=per_page,
                            id_text=id_text, matches=data.matches_display, num_keywords=data.num_keywords,
-                           num_label=data.num_label, value_counts=value_counts)
+                           num_label=data.num_label, value_counts=value_counts, font_size=data.font_size)
 
 
 @auth_bp.route('/value_counts', methods=('GET', 'POST'))
@@ -319,7 +327,7 @@ def update_keyword():
     try:
         if data.is_empty():
             msg = "please run regex first!"
-            pt_ID_default = data.cols_dict.get('empi') or data.cols_dict.get('id') or data.cols_dict.get('row_id')
+            pt_ID_default = data.cols_dict.get('empi') or data.cols_dict.get('id') or data.cols_dict.get('subject_id')
             report_text_default = data.cols_dict.get('report_text') or data.cols_dict.get(
                 'comments') or data.cols_dict.get('text')
             form = RegexForm(pt_ID=pt_ID_default, report_text=report_text_default)
