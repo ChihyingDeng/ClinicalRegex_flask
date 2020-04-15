@@ -132,10 +132,10 @@
                                   <span style="background-color: #f1c6de; font-weight: 900; font-size: {{font_size + 1}}pt; text-decoration: underline;">  {{text[i][start:end]}}</span>
                               {% elif label == 2 %}
                                   {{text[i][prev:start]}}
-                                  <span style="background-color: #ffd3b6">{{text[i][start:end]}}</span>
+                                  <span style="background-color: #ffd3b6; font-weight: 900; font-size: {{font_size + 1}}pt; text-decoration: underline;">{{text[i][start:end]}}</span>
                               {% else %}
                                   {{text[i][prev:start]}}
-                                  <span style="background-color: #b9bfff">{{text[i][start:end]}}</span>
+                                  <span style="background-color: #b9bfff; font-weight: 900; font-size: {{font_size + 1}}pt; text-decoration: underline;">{{text[i][start:end]}}</span>
                               {% endif %}
                           {% endfor %}
                       {% endif %}

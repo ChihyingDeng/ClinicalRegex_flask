@@ -46,7 +46,7 @@ def login_page():
                     elif file_type == 'csv':
                         data.input_df = pd.read_csv(data.input_fname)
                     else:
-                        data.input_df = read_excel(data.input_fname)
+                        data.input_df = pd.read_excel(data.input_fname)
                     data.input_df.columns = map(str.lower, data.input_df.columns)
                     data.output_fname = request.form.get('outputfile')
                     if form.data['run_or_load'] == 0:  # Run Regex
@@ -82,7 +82,7 @@ def run_regex():
         if not data.label_name:
             msg = ''
             pt_ID_default = data.cols_dict.get('empi') or data.cols_dict.get('id') or data.cols_dict.get('subject_id')
-            report_text_default = data.cols_dict.get('report_text') or data.cols_dict.get('comments') or data.cols_dict.get('text')
+            report_text_default = data.cols_dict.get('report_text') or data.cols_dict.get('comments') or data.cols_dict.get('text') or data.cols_dict.get('note_text')
             form = RegexForm(pt_ID=pt_ID_default, report_text=report_text_default)
         else:
             msg = "The output file will be overwritten!!"
@@ -329,7 +329,7 @@ def update_keyword():
             msg = "please run regex first!"
             pt_ID_default = data.cols_dict.get('empi') or data.cols_dict.get('id') or data.cols_dict.get('subject_id')
             report_text_default = data.cols_dict.get('report_text') or data.cols_dict.get(
-                'comments') or data.cols_dict.get('text')
+                'comments') or data.cols_dict.get('text') or data.cols_dict.get('note_text')
             form = RegexForm(pt_ID=pt_ID_default, report_text=report_text_default)
             return redirect(url_for('auth_bp.run_regex'))
         data.annotated_value = None
