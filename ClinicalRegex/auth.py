@@ -44,9 +44,15 @@ def login_page():
                             flash('Invalid RPDR file')
                             return redirect(url_for('auth_bp.login_page', load=False))
                     elif file_type == 'csv':
-                        data.input_df = pd.read_csv(data.input_fname)
+                        try:
+                            data.input_df = pd.read_csv(data.input_fname)
+                        except:
+                            data.input_df = pd.read_csv(data.input_fname, encoding = "ISO-8859-1", engine='python')
                     else:
-                        data.input_df = pd.read_excel(data.input_fname)
+                        try:
+                            data.input_df = pd.read_excel(data.input_fname)
+                        except:
+                            data.input_df = pd.read_excel(data.input_fname, encoding = "ISO-8859-1", engine='python')
                     data.input_df.columns = map(str.lower, data.input_df.columns)
                     data.output_fname = request.form.get('outputfile')
                     if form.data['run_or_load'] == 0:  # Run Regex
