@@ -210,7 +210,6 @@ def annotation():
                                 inner_window=5, outer_window=0)
 
         # display report text on html
-        #if data.patient_level:
         report = data.output_df.loc[page - 1, data.report_text]
         if '[Header_Start]' in report:
             data.output_df.loc[page - 1, data.report_text] = data.combine_keywords_notes(report)

@@ -137,6 +137,7 @@
                                   {{text[i][prev:start]}}
                                   <span style="background-color: #b9bfff; font-weight: 900; font-size: {{font_size + 1}}pt; text-decoration: underline;">{{text[i][start:end]}}</span>
                               {% endif %}
+                            {{text[i][matches[i][-1][2]:]}}
                           {% endfor %}
                       {% endif %}
                       <br/>
