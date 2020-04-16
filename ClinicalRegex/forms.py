@@ -16,6 +16,9 @@ class LoadForm(FlaskForm):
 class RegexForm(FlaskForm):
     pt_ID = SelectField('ID column', coerce=int, validators=[InputRequired])
     report_text = SelectField('Text column', coerce=int, validators=[InputRequired])
+    display_words = SelectField('Display words', coerce=int, validators=[InputRequired],
+                              choices=[(100, '100 words'), (200, '200 words'), (300, '300 words'), 
+                              (400, '400 words'), (0, 'entire note')])
     label1_name = StringField(u'Label 1', [validators.required(), validators.length(max=10)],
                               render_kw={"placeholder": "Label1 name"})
     label1_keyword = TextAreaField(u'', [validators.required(), validators.length(max=200)],

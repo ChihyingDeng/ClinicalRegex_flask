@@ -22,7 +22,7 @@ data = DataModel()
 @auth_bp.route('/', methods=['GET', 'POST'])
 def login_page():
     load = request.args.get('load')
-    if load:
+    if load==True:
         form = LoadForm(run_or_load=1)
     else:
         form = LoadForm(run_or_load=0)
@@ -124,6 +124,7 @@ def run_regex():
                     cols = data.input_df.columns.values.tolist()
                     data.pt_ID = cols[form.data['pt_ID']]
                     data.report_text = cols[form.data['report_text']]
+                    data.display_words = form.data['display_words']
                     data.patient_level = form.data['patient_level']
                     data.positive_hit = form.data['positive_hit']
                     data.lemmatization = form.data['lemmatization']
@@ -209,10 +210,10 @@ def annotation():
                                 inner_window=5, outer_window=0)
 
         # display report text on html
-        if data.patient_level:
-            report = data.output_df.loc[page - 1, data.report_text]
-            if '[Header_Start]' in report:
-                data.output_df.loc[page - 1, data.report_text] = data.combine_keywords_notes(report)
+        #if data.patient_level:
+        report = data.output_df.loc[page - 1, data.report_text]
+        if '[Header_Start]' in report:
+            data.output_df.loc[page - 1, data.report_text] = data.combine_keywords_notes(report)
         text = data.output_df.loc[page - 1, data.report_text].split('\n')
         length = [len(text[0]) + 1]
 

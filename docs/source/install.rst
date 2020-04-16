@@ -1,3 +1,4 @@
+============
 Installation
 ============
 
@@ -13,6 +14,7 @@ Download Docker Desktop
   + MacOS version 10.13 or later
 
   + Windows 10 Pro, Enterprise, or Education (Build 15063 or later)
+
 
 Install Docker Desktop
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -90,7 +92,7 @@ Open the browser
 
 .. raw:: html 
 
-   <video height="400" width="600" controls src="_images/installation.mp4"></video> 
+   <video height="400" width="600" controls src="images/installation.mp4"></video> 
 
 
 VirtualBox
@@ -138,3 +140,4 @@ Open the browser
   .. image:: img/localhost_vb.png
      :height: 30
      :width: 521
+

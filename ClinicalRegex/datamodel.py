@@ -32,6 +32,7 @@ class DataModel:
         self.report_text = None
         self.patient_level = True
         self.positive_hit = True
+        self.display_words = 100
         self.label_name = []
         self.phrases = []
         self.allphrases = []
@@ -70,14 +71,9 @@ class DataModel:
 
             # Concate report text on patient's level
             if self.patient_level:
-                def add_header(df):
-                    cols = df.index.tolist()
-                    cols.remove(self.report_text)
-                    return '[Header_Start]' + '|'.join(list(map(str, df[cols].tolist()))) + \
-                        '[Header_End]' + df[self.report_text]
                 if self.update_keyword:
                     output_df = self.input_df
-                    output_df[self.report_text] = output_df.apply(add_header, axis=1)
+                    output_df[self.report_text] = output_df.apply(self._add_header, axis=1)
                     output_df = output_df.groupby(self.pt_ID)[self.report_text].apply(
                         lambda x: '\n'.join(x)).to_frame().reset_index()
                     output_df = self.output_df.merge(
@@ -88,9 +84,11 @@ class DataModel:
                         on=self.pt_ID)
                     self.output_df[self.report_text] = output_df['new_' + self.report_text]
                 else:
-                    self.output_df[self.report_text] = self.output_df.apply(add_header, axis=1)
+                    self.output_df[self.report_text] = self.output_df.apply(self._add_header, axis=1)
                     self.output_df = self.output_df.groupby(self.pt_ID)[self.report_text].apply(
                         lambda x: '\n'.join(x)).to_frame().reset_index()
+            else:
+                self.output_df[self.report_text] = self.output_df.apply(self._add_header, axis=1)
 
             # clean phrases
             self.output_df[self.report_text] = self.output_df[self.report_text].astype(
@@ -172,6 +170,12 @@ class DataModel:
             return "Something went wrong, did you select an appropriately columns or using the right format of regex?"
         return "done"
 
+    def _add_header(self, df):
+        cols = df.index.tolist()
+        cols.remove(self.report_text)
+        return '[Header_Start]' + '|'.join(list(map(str, df[cols].tolist()))) + \
+            '[Header_End]' + df[self.report_text]
+
     def _clean_phrase(self, phrase):
         cleaned = str(phrase.replace('||', '|').replace('\\r', '\\n'))
         cleaned = re.sub(r'(\n+|\r\r)', '\n', cleaned)
@@ -188,9 +192,17 @@ class DataModel:
     def combine_keywords_notes(self, text):
         output = []
         for t in text.split('[Header_Start]'):
+            if not t:
+                continue
             header = '%s\n%s\n%s\n' % ('=' * 100, t.split('[Header_End]')[0], '=' * 100)
             note = t.split('[Header_End]')[-1]
-            df = pd.DataFrame(map(' '.join, zip(*[iter(note.split(' '))] * 100)), columns=['text'])
+            if self.display_words == 0:
+                df = pd.DataFrame([note], columns=['text'])
+            else:
+                df = pd.DataFrame(map(' '.join, zip(*[iter(note.split(' '))] * self.display_words)), columns=['text'])
+                d, m = divmod(len(note.split(' ')), self.display_words)
+                if m > 0:
+                    df.loc[d] = ' '.join(note.split(' ')[d*self.display_words:])
             df['regex'] = df['text'].apply(lambda x: self._search_keywords(x))
             if any(df['regex'] == 1):
                 output.append(header + df[df['regex'] == 1].reset_index(drop=True)['text'].str.cat(sep='\n----\n'))
