@@ -53,9 +53,9 @@ def login_page():
                             data.input_df = pd.read_excel(data.input_fname)
                         except:
                             data.input_df = pd.read_excel(data.input_fname, encoding = "ISO-8859-1", engine='python')
-                    data.input_df.columns = map(str.lower, data.input_df.columns)
                     data.output_fname = request.form.get('outputfile')
                     if form.data['run_or_load'] == 0:  # Run Regex
+                        data.input_df.columns = map(str.lower, data.input_df.columns)
                         return redirect(url_for('auth_bp.run_regex'))
                     elif form.data['run_or_load'] == 1:  # Load Annotation
                         data.load_annotation = True
@@ -201,6 +201,7 @@ def annotation():
             start_page = 1
 
         data.update_keyword = False
+        data.load_annotation = False
         page = int(request.args.get('page', start_page))
         per_page = 1
         offset = (page - 1) * per_page
