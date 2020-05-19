@@ -72,7 +72,6 @@ class ValueFormThree(FlaskForm):
                                 render_kw={"placeholder": "annotation value"})
     submit_button = SubmitField('Save')
 
-
 class DownloadForm(FlaskForm):
     with_report = BooleanField('with report', default=True)
     submit_download = SubmitField('Download')

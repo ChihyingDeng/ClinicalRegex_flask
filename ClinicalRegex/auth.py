@@ -158,12 +158,16 @@ def annotation():
             data.phrases, data.label_name = [''] * 3, [''] * 3
             data.output_df = data.input_df
             cols = data.output_df.columns.values.tolist()
-            print(cols)
+            length = data.output_df.index[data.output_df[cols[1]].isna()].tolist()
+            if length: data.output_df = data.output_df.iloc[:length[0],:]
             if 'L1_' not in cols[2] or '_span' not in cols[3] or '_text' not in cols[4] or 'keywords' not in cols:
                 flash('Please select the correct file to load the annotation')
                 return redirect(url_for('auth_bp.login_page'))
             data.pt_ID, data.report_text = cols[:2]
-            data.num_keywords = tuple(int(i) for i in data.output_df.loc[0, 'keywords'].split('-'))
+            if '-' not in data.output_df.loc[0, 'keywords']:
+                data.num_keywords = tuple((len(data.output_df), len(data.output_df)))
+            else:
+                data.num_keywords = tuple(int(i) for i in data.output_df.loc[0, 'keywords'].split('-'))
             try:
                 for i in range(3):
                     if 3 * i + 5 < len(cols) and 'L%d_' % (i + 1) in cols[3 * i + 2]:
@@ -176,7 +180,7 @@ def annotation():
             except BaseException:
                 flash('Please select the correct file to load the annotation')
                 return redirect(url_for('auth_bp.login_page', load=False))
-
+        
         if data.label_name[2]:
             form = ValueFormThree()
             data.num_label = 3
@@ -191,15 +195,18 @@ def annotation():
             if msg != "done":
                 flash(msg)
                 return redirect(url_for('auth_bp.run_regex'))
-        
         # pagination
         if jump:
             start_page = int(jump) + 1
         elif data.load_annotation or data.update_keyword:
-            start_page = int(data.output_df.loc[data.num_label + 1, 'keywords']) + 1
+            if data.num_label + 1 >= len(data.output_df) or np.isnan(data.output_df.loc[data.num_label + 1, 'keywords']):
+                start_page = data.output_df.index[data.output_df['L1_' + data.label_name[0]].isna()].tolist()
+                start_page = start_page[0] + 1 if start_page else 1
+            else:
+                start_page = int(data.output_df.loc[data.num_label + 1, 'keywords']) + 1
         else:
             start_page = 1
-
+            
         data.update_keyword = False
         data.load_annotation = False
         page = int(request.args.get('page', start_page))
@@ -238,11 +245,11 @@ def annotation():
 
         # get annotation values
         if data.num_label > 0:
-            value = [data.matches_value[0]] if not form.data['label1_value'] else [form.data['label1_value']]
+            value = [data.matches_value[0]] if form.data['label1_value']==None else [form.data['label1_value']]
         if data.num_label > 1:
-            value.append(data.matches_value[1] if not form.data['label2_value'] else form.data['label2_value'])
+            value.append(data.matches_value[1] if form.data['label2_value']==None else form.data['label2_value'])
         if data.num_label > 2:
-            value.append(data.matches_value[2] if not form.data['label3_value'] else form.data['label3_value'])
+            value.append(data.matches_value[2] if form.data['label3_value']==None else form.data['label3_value'])
         data.annotated_value = value
         value_counts = data.get_value_counts()
 
