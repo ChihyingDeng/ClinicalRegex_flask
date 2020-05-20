@@ -199,11 +199,11 @@ def annotation():
         if jump:
             start_page = int(jump) + 1
         elif data.load_annotation or data.update_keyword:
-            if data.num_label + 1 >= len(data.output_df) or np.isnan(data.output_df.loc[data.num_label + 1, 'keywords']):
+            try:
+                start_page = int(data.output_df.loc[data.num_label + 1, 'keywords']) + 1
+            except:
                 start_page = data.output_df.index[data.output_df['L1_' + data.label_name[0]].isna()].tolist()
                 start_page = start_page[0] + 1 if start_page else 1
-            else:
-                start_page = int(data.output_df.loc[data.num_label + 1, 'keywords']) + 1
         else:
             start_page = 1
             
