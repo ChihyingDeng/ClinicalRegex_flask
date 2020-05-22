@@ -52,7 +52,9 @@ class UpdateForm(FlaskForm):
 
 class ValueFormOne(FlaskForm):
     label1_value = IntegerField(u'Label 1')
-    submit_button = SubmitField('Save')
+    submit_prev = SubmitField('Prev')
+    submit_next = SubmitField('Next')
+    submit_save = SubmitField('Save')
 
 
 class ValueFormTwo(FlaskForm):
@@ -60,7 +62,9 @@ class ValueFormTwo(FlaskForm):
                                 render_kw={"placeholder": "annotation value"})
     label2_value = IntegerField(u'Label 2',
                                 render_kw={"placeholder": "annotation value"})
-    submit_button = SubmitField('Save')
+    submit_prev = SubmitField('Prev')
+    submit_next = SubmitField('Next')
+    submit_save = SubmitField('Save')
 
 
 class ValueFormThree(FlaskForm):
@@ -70,11 +74,13 @@ class ValueFormThree(FlaskForm):
                                 render_kw={"placeholder": "annotation value"})
     label3_value = IntegerField(u'Label 3',
                                 render_kw={"placeholder": "annotation value"})
-    submit_button = SubmitField('Save')
+    submit_prev = SubmitField('Prev')
+    submit_next = SubmitField('Next')
+    submit_save = SubmitField('Save')
 
 class DownloadForm(FlaskForm):
-    with_report = BooleanField('with report', default=True)
     submit_download = SubmitField('Download')
+    with_report = BooleanField('with report', default=True)
 
 
 class ValueForm(FlaskForm):

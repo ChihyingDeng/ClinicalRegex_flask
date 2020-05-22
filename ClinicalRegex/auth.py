@@ -210,6 +210,7 @@ def annotation():
         data.update_keyword = False
         data.load_annotation = False
         page = int(request.args.get('page', start_page))
+
         per_page = 1
         offset = (page - 1) * per_page
         total_length = data.num_keywords[0] if data.positive_hit else data.num_keywords[1]
@@ -257,10 +258,15 @@ def annotation():
         zoom = Zoom()
 
         if request.method == 'POST':
-            if form.is_submitted() and form.submit_button.data:
+            # save annotation value and go to next or previous note
+            if form.is_submitted():
                 data.save_matches(data.annotated_value)
                 value_counts = data.get_value_counts()
-
+                if form.submit_next.data:
+                    return redirect(url_for('auth_bp.annotation', jump=min(page, len(data.output_df)-2)))
+                elif form.submit_prev.data:
+                    return redirect(url_for('auth_bp.annotation', jump=max(page-2, 0)))
+            # download report
             if downloadform.validate_on_submit() and downloadform.submit_download.data:
                 if downloadform.data['with_report']:
                     return send_file('../output/' + data.output_fname,
@@ -272,6 +278,7 @@ def annotation():
                                      mimetype='text/csv',
                                      attachment_filename='noreport_' + data.output_fname,
                                      as_attachment=True)
+            # zoom in and zoom out
             if zoom.is_submitted():
                 if zoom.submit_zoom_in.data and data.font_size < 20: data.font_size += 2
                 if zoom.submit_zoom_out.data and data.font_size >4: data.font_size -=2
@@ -311,7 +318,9 @@ def value_counts():
             form.label1_value.label = Label(field_id="label1_value", text=data.label_name[0])
             form.label1_value.render_kw = {'readonly': True}
 
-        form.submit_button.render_kw = {'readonly': True}
+        form.submit_save.render_kw = {'readonly': True}
+        form.submit_prev.render_kw = {'readonly': True}
+        form.submit_next.render_kw = {'readonly': True}
         value_counts = data.get_value_counts()
 
         downloadform = DownloadForm()

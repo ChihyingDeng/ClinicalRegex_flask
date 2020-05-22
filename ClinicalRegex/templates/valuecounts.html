@@ -26,7 +26,7 @@
 .value {
   position: fixed;
   position:sticky; 
-  width: 13%;
+  width: 16%;
   top: 62%;
 }
 .download {
@@ -73,17 +73,17 @@
     <a href="{{ url_for('auth_bp.login_page', load=True) }}">Load Annotation</a>
 </div>
 
-<div class="left_bar"  id="Left_Bar" style="position:fixed; top: 10%; width:12%; background-color: #c3e8ec;" >
+<div class="left_bar"  id="Left_Bar" style="position:fixed; top: 70px; width:16%; background-color: #c3e8ec;" >
   <h4 style="color:#428bca; text-align:center;"><b>Annotation</b></h4>
-  {{ wtf.quick_form(form, button_map={'submit_button': 'primary'}) }}
+  {{ wtf.quick_form(form, button_map={'submit_prev': 'primary', 'submit_next': 'primary'}) }}
   <p style="font-size: 12px; line-height: 14px;"><br/>Notes with keywords:<br/>{{num_keywords[0]}} out of {{num_keywords[1]}}</p>
 </div>
 
-<div class="download"  id="download" style="position:fixed; top: 92%; width:13%">
-      {{ wtf.quick_form(downloadform, button_map={'submit_download': 'warning'}) }}
+<div class="download" style="position: fixed; left: 1%; top: 92%; width: 16%;">
+  {{ wtf.quick_form(downloadform, form_type='inline', button_map={'submit_download': 'warning'}) }}
 </div>
 
-<div class="value" style="position:fixed; top: 62%; left:1%; width:13%;">
+<div class="value" style="position:fixed; top: 62%; left:1%; width:16%;">
 <h5 style="text-align:center;">Value Counts</h5>
 <ul class="list-group">
 <li class="list-group-item d-flex justify-content-between align-items-center" style="height: 30px; padding: 5px 15px;">
@@ -99,7 +99,7 @@
 </ul>
 </div>
 
-<div class="annotation" style="position:relative; top: 0%; left:14%; width:84%">
+<div class="annotation" style="position:relative; top: 0%; left:18%; width:81%">
     <br/>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item active">
