@@ -3,9 +3,6 @@ import re
 import os
 import pandas as pd
 import bisect
-import spacy
-nlp = spacy.load('en_core_web_sm', disable=['parser', 'ner'])
-nlp.max_length = 3000000
 
 
 class ValueCounts:
@@ -47,7 +44,6 @@ class DataModel:
         self.load_annotation = False
         self.save = True
         self.update_keyword = False
-        self.lemmatization = False
         self.font_size = 10
 
     def is_empty(self):
@@ -102,40 +98,6 @@ class DataModel:
                     self.output_df.insert(3 * i + 2, 'L%d_' % (i + 1) + self.label_name[i], [None] * length)
                     self.output_df.insert(3 * i + 3, 'L%d_' % (i + 1) + self.label_name[i] + '_span', [None] * length)
                     self.output_df.insert(3 * i + 4, 'L%d_' % (i + 1) + self.label_name[i] + '_text', [None] * length)
-
-            if self.lemmatization:
-                # Lemmatization and update phrases
-                lemma_phrases, lemma_phrases_dict = [], {}
-                for i in range(self.num_label):
-                    update_phrases = []
-                    for phrase in self.phrases[i].split(','):
-                        doc = nlp(phrase.lower())
-                        # don't lemmatize the phrases when phrases containing regular expression
-                        if not re.search(r'[^\w\s/]', phrase):
-                            lemma = ' '.join([token.lemma_ for token in doc])
-                        else:
-                            lemma = phrase
-                        update_phrases.append(lemma)
-                        lemma_phrases_dict[lemma] = {phrase.lower(), lemma}
-                    lemma_phrases.extend(update_phrases)
-                    self.phrases[i] = ','.join(update_phrases)
-
-                # update lemma_phrases_dict
-                text = self.output_df[self.report_text].str.cat(sep=' ')
-                text = re.sub(r'[^\w\s]|[\d_]', '', text)
-                doc = nlp(' '.join(set(text.lower().replace('\n', ' ').split(' '))))
-                for token in doc:
-                    if token.lemma_ in lemma_phrases:
-                        lemma_phrases_dict[token.lemma_].add(token.text)
-                for i in range(self.num_label):
-                    update_phrases = []
-                    for phrase in self.phrases[i].split(','):
-                        if len(lemma_phrases_dict[phrase]) > 1:
-                            update_phrases.append('(' + '|'.join(lemma_phrases_dict[phrase]) + ')')
-                        else:
-                            update_phrases.append(''.join(lemma_phrases_dict[phrase]))
-                    self.allphrases.extend(update_phrases)
-                    self.phrases[i] = ','.join(update_phrases)
 
             # search keywords set
             self.output_df['regex'] = self.output_df[self.report_text].apply(lambda x: self._search_keywords(x))

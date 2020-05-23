@@ -127,7 +127,6 @@ def run_regex():
                     data.display_words = form.data['display_words']
                     data.patient_level = form.data['patient_level']
                     data.positive_hit = form.data['positive_hit']
-                    data.lemmatization = form.data['lemmatization']
                     data.phrases = [
                         form.data['label1_keyword'],
                         form.data['label2_keyword'],

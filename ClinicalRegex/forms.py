@@ -33,7 +33,6 @@ class RegexForm(FlaskForm):
                                    render_kw={"placeholder": "Label3 keywords (optional)"})
     patient_level = BooleanField('Patient Level', default=True)
     positive_hit = BooleanField('Display notes with keywords only', default=True)
-    lemmatization = BooleanField('Lemmatization', default=False)
     submit_button = SubmitField('Run Regex')
 
 
