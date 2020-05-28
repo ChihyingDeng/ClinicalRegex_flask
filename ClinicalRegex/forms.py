@@ -35,6 +35,7 @@ class RegexForm(FlaskForm):
     positive_hit = BooleanField('Display notes with keywords only', default=True)
     lemmatization = BooleanField('Lemmatization', default=False)
     submit_button = SubmitField('Run Regex')
+    noreview_button = SubmitField('Run Regex without review')
 
 
 class UpdateForm(FlaskForm):

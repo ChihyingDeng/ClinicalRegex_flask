@@ -134,7 +134,33 @@ def run_regex():
                         form.data['label3_keyword']]
                     data.label_name = [form.data['label1_name'], form.data['label2_name'], form.data['label3_name']]
                     data.update_keyword = False
-                    return redirect(url_for('auth_bp.annotation', jump=None))
+                    if form.noreview_button.data:
+                        if data.label_name[2]: data.num_label = 3
+                        elif data.label_name[1]: data.num_label = 2
+                        else: data.num_label = 1
+                        data.sort_data()
+                        data.output_df[data.report_text] = data.output_df[data.report_text].apply(lambda x: data.combine_keywords_notes(x))
+                        for page in range(1, len(data.output_df)+1):
+                            text = data.output_df.loc[page - 1, data.report_text].split('\n')
+                            length = [len(text[0]) + 1]
+                            for i in range(1, len(text)):
+                                length.append(len(text[i]) + 1 + length[i - 1])
+                            data.current_row_index = page - 1
+                            data.get_matches_indices(length, text)
+                            value = [data.matches_value[0]]
+                            if data.num_label > 1:
+                                value.append(data.matches_value[1])
+                            if data.num_label > 2:
+                                value.append(data.matches_value[2])
+                            data.annotated_value = value
+                            data.save_matches(data.annotated_value)
+                        import pdb; pdb.set_trace()
+                        return send_file('../output/' + data.output_fname,
+                                            mimetype='text/csv',
+                                            attachment_filename=data.output_fname,
+                                            as_attachment=True)
+                    else:
+                        return redirect(url_for('auth_bp.annotation', jump=None))
 
             flash('Please enter the name and keywords of label')
             return redirect(url_for('auth_bp.run_regex'))
@@ -394,3 +420,4 @@ def update_keyword():
         return redirect(url_for('auth_bp.login_page', load=False))
 
     return render_template('regex.html', form=form, msg=msg)
+
