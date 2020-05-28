@@ -134,7 +134,8 @@ def run_regex():
                         form.data['label3_keyword']]
                     data.label_name = [form.data['label1_name'], form.data['label2_name'], form.data['label3_name']]
                     data.update_keyword = False
-                    if form.noreview_button.data:
+                    # run regex without reviewing
+                    if form.noreview_button.data: 
                         if data.label_name[2]: data.num_label = 3
                         elif data.label_name[1]: data.num_label = 2
                         else: data.num_label = 1
@@ -154,11 +155,11 @@ def run_regex():
                                 value.append(data.matches_value[2])
                             data.annotated_value = value
                             data.save_matches(data.annotated_value)
-                        import pdb; pdb.set_trace()
                         return send_file('../output/' + data.output_fname,
                                             mimetype='text/csv',
                                             attachment_filename=data.output_fname,
                                             as_attachment=True)
+                     # run regex
                     else:
                         return redirect(url_for('auth_bp.annotation', jump=None))
 
