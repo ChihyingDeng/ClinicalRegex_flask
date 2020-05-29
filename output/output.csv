@@ -76,7 +76,9 @@ s/p 5.5L of IVFs in the ED. Initially
  # Metastatic lung cancer: Outpatient plan had been for EGFR gene
  mutation testing. Will discuss plan with heme/onc (Dr. [**Last Name (STitle) 852**] and
  consult palliative care, social work. PLan for family meeting today
-",1.0,1010-1024|2051-2065|3220-3234|4253-4267,family meeting|family meeting|family meeting|family meeting,1.0,971-986|2012-2027|2333-2348|3181-3196|4214-4229,palliative care|palliative care|palliative care|palliative care|palliative care,59-641
+",1.0,1010-1024|2051-2065|3220-3234|4253-4267,"l work. PLan f|liative care, |**] and
+ cons|t Name (STitle",1.0,971-986|2012-2027|2333-2348|3181-3196|4214-4229,"*] and
+ consul| Name (STitle) |*Last Name (STi|heme/onc (Dr. [| discuss plan w",59-641
 338553.0,"====================================================================================================
 338553.0|Specifically if his health issues were [**2-19**] his cancer and not
  reversible then he would want to go home and be comfortable. AICD
@@ -239,7 +241,7 @@ Chief Complaint: transfer for renal failure in setting of heart failure
  Comments:
  Communication: Family meeting held , ICU consent signed Comments:
  Code status: Full code
- Disposition:",7.0,141-155|1032-1046|1297-1311|2139-2153,Family meeting|Family meeting|Family meeting|Family meeting,0.0,,,9
+ Disposition:",7.0,141-155|1032-1046|1297-1311|2139-2153,Family meeting|Family meeting|Family meeting|Family meeting,0.0,,,0
 415275.0,"====================================================================================================
 415275.0|DNR/DNI - but family wishes to reassess each clinical
  circumstance|150375|1|58|nan|0|1|nan|nan|nan|0|Code: DNR/DNI|Saad|1|nan|EOL_Notes_3_07Nov17Results.csv|32050.0|0|Tue Nov 7 23:13:52 2017|Physician |0|Physician Resident Progress Note|nan

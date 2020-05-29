@@ -1,8 +1,10 @@
 ROW_ID,L1_goals of care,L1_goals of care_span,L1_goals of care_text,L2_palliative,L2_palliative_span,L2_palliative_text,keywords
-737625.0,1.0,1010-1024|2051-2065|3220-3234|4253-4267,family meeting|family meeting|family meeting|family meeting,1.0,971-986|2012-2027|2333-2348|3181-3196|4214-4229,palliative care|palliative care|palliative care|palliative care|palliative care,59-641
+737625.0,1.0,1010-1024|2051-2065|3220-3234|4253-4267,"l work. PLan f|liative care, |**] and
+ cons|t Name (STitle",1.0,971-986|2012-2027|2333-2348|3181-3196|4214-4229,"*] and
+ consul| Name (STitle) |*Last Name (STi|heme/onc (Dr. [| discuss plan w",59-641
 338553.0,0.0,,,1.0,1252-1267|2446-2461,Palliative Care|Palliative Care,"goal (of|for) cares?,goc,family discussion,(family meeting|family meeting )"
 531093.0,9.0,262-276|801-815|1386-1400|1945-1959|3046-3060,family meeting|family meeting|Family meeting|family meeting|family meeting,8.0,226-241|905-920|2049-2064|3150-3165,palliative care|palliative care|palliative care|palliative care,"palliative care,pall care"
-457390.0,7.0,141-155|1032-1046|1297-1311|2139-2153,Family meeting|Family meeting|Family meeting|Family meeting,0.0,,,9
+457390.0,7.0,141-155|1032-1046|1297-1311|2139-2153,Family meeting|Family meeting|Family meeting|Family meeting,0.0,,,0
 415275.0,0.0,,,1.0,766-781|812-827|1879-1894|1925-1940,palliative care|palliative care|palliative care|palliative care,
 705370.0,0.0,,,5.0,202-217|612-627|1603-1618|2380-2395|2755-2770,palliative care|palliative care|palliative care|palliative care|palliative care,
 705574.0,0.0,,,4.0,821-836|1835-1850,palliative care|palliative care,

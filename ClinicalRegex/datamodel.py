@@ -4,6 +4,7 @@ import os
 import pandas as pd
 import bisect
 import spacy
+from spacy.lang.en import English
 nlp = spacy.load('en_core_web_sm', disable=['parser', 'ner'])
 nlp.max_length = 3000000
 

@@ -44,6 +44,7 @@
   width: 100%;
   overflow: hidden;
   background-color: #444444;
+  vertical-align: middle;
 }
 .topnav a {
   float: left;
@@ -69,6 +70,12 @@
   position: fixed;
   z-index: 999999;
 }
+#fixedbutton {
+    position: fixed;
+    bottom: 10px;
+    right: 10px; 
+    z-index: 999999;
+}
 
 </style>
 
@@ -79,13 +86,17 @@
     <a href="{{ url_for('auth_bp.login_page', load=True) }}">Load Annotation</a>
     <a href=https://groups.google.com/forum/#!forum/clinicalregex/new target="_blank">Forum</a>
     <a href=https://forms.gle/yjPDU3fYJ9MCuhoB8 target="_blank">Contact Us</a>
-    <a href=https://clinicalregex.readthedocs.io/en/latest/ target="_blank">Docs</a>
-    <p style="color: white; position: fixed; left: 87%; top: 12pt;">Font-Size: {{font_size}}</p>
-    <div class="zoom" style="position: fixed; left: 87%; top: 10pt;">
-    </div>
-    <div class="zoom" style="position: fixed; left: 94%; top: 1%; ">
+
+    <div><p style="color: white; position: fixed; top: 1em; text-align: center; right: 7%; margin-right: 20px;">Font-Size: {{font_size}}</p></div>
+
+    <div style="position: fixed; right: 2%; top: .5em;">
+      <div class="zoom" ></div>
+      <div class="zoom""></div>
+
       {{ wtf.quick_form(zoom, form_type='inline', button_map={'submit_zoom_in': 'info', 'submit_zoom_out': 'info'}) }}
+
     </div>
+
 </div>
 
 <div class="left_bar" id="Header" style=" position:fixed; left: 1%; top: 70px; width: 16%; background-color: #c3e8ec; border-radius: 5px;"c>
@@ -119,6 +130,7 @@
   {{ wtf.quick_form(downloadform, form_type='inline', button_map={'submit_download': 'warning'}) }}
 </div>
 
+<a href="https://clinicalregex.readthedocs.io/en/latest/" id="fixedbutton" target="_blank"><img src="https://img.icons8.com/cotton/64/000000/info.png" title="Help" alt="Help"></a>
 
 
 <div class="annotation" style="position: absolute; left: 18%; top: 5%; width: 81%;">
