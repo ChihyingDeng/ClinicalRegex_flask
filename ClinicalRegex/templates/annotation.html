@@ -37,12 +37,11 @@
   left: 1%;
 }
 .zoom {
-  position: absolute; 
-  position:sticky; 
-  top: 5%;
-  left: 90%;
+  position: absolute;
+  z-index: 1; 
 }
 .topnav {
+  width: 100%;
   overflow: hidden;
   background-color: #444444;
 }
@@ -50,28 +49,43 @@
   float: left;
   color: #f2f2f2;
   text-align: center;
-  padding: 12px 30px;
+  padding: 12px 24px;
   text-decoration: none;
   vertical-align: middle;
   font-size: 18px;
 }
 .topnav a:hover {
-    background-color: #ddf2f4;
+  background-color: #ddf2f4;
   color: #113337;
 }
 .topnav a.active {
   background-color: #37a1ae;
   color: white;
-}            
+}     
+.progress-bar-text {
+  color: #000000; 
+} 
+#Navigation-Bar {
+  position: fixed;
+  z-index: 999999;
+}
+
 </style>
 
-<div class="topnav">
+<div class="topnav" id="Navigation-Bar">
     <a class="active" href="{{ url_for('auth_bp.login_page', load=False) }}"><b>ClinicalRegex</b></a>
     <a href="{{ url_for('auth_bp.run_regex') }}">Run Regex</a>
     <a href="{{ url_for('auth_bp.update_keyword') }}">Update Keywords</a>
     <a href="{{ url_for('auth_bp.login_page', load=True) }}">Load Annotation</a>
     <a href=https://groups.google.com/forum/#!forum/clinicalregex/new target="_blank">Forum</a>
     <a href=https://forms.gle/yjPDU3fYJ9MCuhoB8 target="_blank">Contact Us</a>
+    <a href=https://clinicalregex.readthedocs.io/en/latest/ target="_blank">Docs</a>
+    <p style="color: white; position: fixed; left: 87%; top: 12pt;">Font-Size: {{font_size}}</p>
+    <div class="zoom" style="position: fixed; left: 87%; top: 10pt;">
+    </div>
+    <div class="zoom" style="position: fixed; left: 94%; top: 1%; ">
+      {{ wtf.quick_form(zoom, form_type='inline', button_map={'submit_zoom_in': 'info', 'submit_zoom_out': 'info'}) }}
+    </div>
 </div>
 
 <div class="left_bar" id="Header" style=" position:fixed; left: 1%; top: 70px; width: 16%; background-color: #c3e8ec; border-radius: 5px;"c>
@@ -97,7 +111,7 @@
 <div class="progress">
     <div class="progress-bar" role="progressbar" style="{{value_counts.annotation_prog_str[1]}}"
          aria-valuenow={{value_counts.annotation_prog[1]}} 
-         aria-valuemin="0" aria-valuemax="100"><small>{{value_counts.annotation_prog[1]}}%</small></div>
+         aria-valuemin="0" aria-valuemax="100"><small class="progress-bar-text">{{value_counts.annotation_prog[1]}}%</small></div>
 </div>
 </div>
 
@@ -105,12 +119,7 @@
   {{ wtf.quick_form(downloadform, form_type='inline', button_map={'submit_download': 'warning'}) }}
 </div>
 
-<div class="zoom" style="position: absolute; left: 87%; top: 10pt; ">
-  <p style="color: white;">Font-Size: {{font_size}}</p>
-</div>
-<div class="zoom" style="position: absolute; left: 94%; top: 1%; ">
-  {{ wtf.quick_form(zoom, form_type='inline', button_map={'submit_zoom_in': 'info', 'submit_zoom_out': 'info'}) }}
-</div>
+
 
 <div class="annotation" style="position: absolute; left: 18%; top: 5%; width: 81%;">
   {{ pagination.links }}
@@ -153,18 +162,28 @@
 </div>
 
 <script>
-  window.onscroll = function() {Fix()};
+window.onscroll = function() {Fix1(), Fix2()};
 
-  var header = document.getElementById("Header");
-  var sticky = header.offsetTop;
+var header1 = document.getElementById("Header");
+var sticky1 = header1.offsetTop;
 
-  function Fix() {
-    if (window.pageYOffset > sticky) {
-      header.classList.add("sticky");
-    } else {
-      header.classList.remove("sticky");
-    }
+var header2 = document.getElementById("Navigation-Bar");
+var sticky2 = header2.offsetTop;
+
+function Fix1() {
+  if (window.pageYOffset > sticky1) {
+    header1.classList.add("sticky");
+  } else {
+    header1.classList.remove("sticky");
   }
+}
+function Fix2() {
+  if (window.pageYOffset > sticky2) {
+    header2.classList.add("sticky");
+  } else {
+    header2.classList.remove("sticky");
+  }
+}
   </script>
 
 {{ dataframe|safe }}

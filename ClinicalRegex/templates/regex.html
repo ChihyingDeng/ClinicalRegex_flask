@@ -56,13 +56,14 @@
         <title>ClinicalRegex</title>
     </head>
     <body style="background-color: #c3e8ec;">
-    <div class="topnav">
+    <div class="topnav" id="Navigation-Bar">
         <a class="active" href="{{ url_for('auth_bp.login_page', load=False) }}"><b>ClinicalRegex</b></a>
         <a href="{{ url_for('auth_bp.run_regex') }}">Run Regex</a>
         <a href="{{ url_for('auth_bp.update_keyword') }}">Update Keywords</a>
         <a href="{{ url_for('auth_bp.login_page', load=True) }}">Load Annotation</a>
         <a href=https://groups.google.com/forum/#!forum/clinicalregex/new target="_blank">Forum</a>
         <a href=https://forms.gle/yjPDU3fYJ9MCuhoB8 target="_blank">Contact Us</a>
+        <a href=https://clinicalregex.readthedocs.io/en/latest/ target="_blank">Docs</a>
     </div>
     {% if msg %}
       <div class="alert alert-warning" role="alert" style="width:99.5%; height:75%; margin: auto; border-radius: 5px;">
@@ -78,16 +79,26 @@
     </div>
     
     <script>
-    window.onscroll = function() {Fix()};
+    window.onscroll = function() {Fix1(), Fix2()};
 
-    var header = document.getElementById("Header");
-    var sticky = header.offsetTop;
+    var header1 = document.getElementById("Header");
+    var sticky1 = header1.offsetTop;
+    
+    var header2 = document.getElementById("Navigation-Bar");
+    var sticky2 = header2.offsetTop;
 
-    function Fix() {
-      if (window.pageYOffset > sticky) {
-        header.classList.add("sticky");
+    function Fix1() {
+      if (window.pageYOffset > sticky1) {
+        header1.classList.add("sticky");
       } else {
-        header.classList.remove("sticky");
+        header1.classList.remove("sticky");
+      }
+    }
+    function Fix2() {
+      if (window.pageYOffset > sticky2) {
+        header2.classList.add("sticky");
+      } else {
+        header2.classList.remove("sticky");
       }
     }
     </script>
