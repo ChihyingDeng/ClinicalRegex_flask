@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block pagestyles %}
+  <link href="{{ url_for('static', filename='dist/css/account.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+  <div class="formwrapper">
+    <form method=post action="" enctype="multipart/form-data"> 
+      <div class="logo">
+        <img src="{{ url_for('static', filename='dist/img/CR_logo.png') }}">
+      </div>
+      {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+        </div>
+      {% endfor %}
+      <h1>ClinicalRegex</h1>
+      <div class="input_file">
+         {{ form.inputfile.label }}
+         {{ form.inputfile}}
+         {% if form.inputfile.errors %}
+           <ul class="errors">
+             {% for error in form.inputfile.errors %}<li>{{ error }}</li>{% endfor %}
+           </ul>
+         {% endif %}
+      </div>
+      <div class="output_file">
+        {{ form.outputfile.label }}
+        {{ form.outputfile }}
+        {% if form.outputfile.errors %}
+          <ul class="errors">
+            {% for error in form.outputfile.errors %}<li>{{ error }}</li>{% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+      <div class="run_or_load">
+          {{ form.run_or_load.label }}
+          {{ form.run_or_load }}
+      </div>
+      <br/>
+      <div class="submitbutton">
+        <input id="submit" type="submit" value="Submit">
+      </div>
+    </form>
+  </div>
+
+  <style>
+    #fixedbutton {
+      position: fixed;
+      bottom: 10px;
+      right: 10px; 
+      z-index: 999999;
+  }
+  </style>
+  
+  <a href="https://clinicalregex.readthedocs.io/en/latest/" id="fixedbutton" target="_blank"><img src="https://img.icons8.com/cotton/64/000000/info.png" title="Help" alt="Help"></a>
+{% endblock %}
+
+
