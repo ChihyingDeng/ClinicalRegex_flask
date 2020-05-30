@@ -62,6 +62,7 @@ exe = EXE(pyz,
           bootloader_ignore_signals=False,
           strip=False,
           upx=True,
+          icon='CR_logo_clean.ico',
           console=False )
 coll = COLLECT(exe,
                a.binaries,

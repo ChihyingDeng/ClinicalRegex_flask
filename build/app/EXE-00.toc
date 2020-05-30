@@ -3,7 +3,7 @@
  False,
  False,
  True,
- None,
+ 'CR_logo_clean.ico',
  None,
  False,
  False,
@@ -53,7 +53,7 @@
  [],
  False,
  False,
- 1590795774,
+ 1590799290,
  [('runw.exe',
    'C:\\Python37\\lib\\site-packages\\PyInstaller\\bootloader\\Windows-64bit\\runw.exe',
    'EXECUTABLE')])
