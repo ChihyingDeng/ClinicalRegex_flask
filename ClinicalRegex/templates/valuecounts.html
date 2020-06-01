@@ -23,6 +23,7 @@
   background-color: #c3e8ec;
   border-radius: 5px;
 }
+
 .value {
   position: fixed;
   position:sticky; 
@@ -43,7 +44,7 @@
   top: 90%;
   left: 14%;
 }
-.topnav {
+.topnav { 
   overflow: hidden;
   background-color: #444444;
 }
@@ -66,7 +67,7 @@
 }            
 </style>
 
-<div class="topnav">
+<div class="topnav" id="Navigation-Bar">
     <a class="active" href="{{ url_for('auth_bp.login_page', load=False) }}"><b>ClinicalRegex</b></a>
     <a href="{{ url_for('auth_bp.run_regex') }}">Run Regex</a>
     <a href="{{ url_for('auth_bp.update_keyword') }}">Update Keywords</a>
