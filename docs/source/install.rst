@@ -89,11 +89,9 @@ Open the browser
 
  * After installation, if you want to start the ClinicalRegex program again, please restart the docker image and open the browser.
 
-
-.. raw:: html 
-
-   <video height="400" width="600" controls src="img/installation.mp4"></video> 
-
+.. image:: img/installation.mp4
+   :height: 600
+   :width: 400
 
 VirtualBox
 ----------
