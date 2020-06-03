@@ -92,7 +92,7 @@ Open the browser
 
 .. raw:: html 
 
-   <video height="400" width="600" controls src="images/installation.mp4"></video> 
+   <video height="400" width="600" controls src="img/installation.mp4"></video> 
 
 
 VirtualBox
