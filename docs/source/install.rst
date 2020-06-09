@@ -129,15 +129,6 @@ Open the browser
 
 Windows User
 ============
-
-Open the browser
-----------------
-* Go to http://localhost:8080/
-
-  .. image:: img/localhost_vb.png
-     :height: 30
-     :width: 521
-
 Video
 -----
 .. image:: img/installation_windows.mp4
