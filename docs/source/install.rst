@@ -79,10 +79,8 @@ Video
 .. raw:: html
 
     <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
-        <iframe src="https://www.youtube.com/watch?v=T3YnfIvBK-Y" frameborder="0" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/T3YnfIvBK-Y" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
-   :height: 360
-   :width: 600
 
 2) VirtualBox
 -------------
@@ -138,8 +136,5 @@ Video
 .. raw:: html
 
     <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
-        <iframe src="https://www.youtube.com/watch?v=ofE-J63zPbE" frameborder="0" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/ofE-J63zPbE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
-
-   :height: 360
-   :width: 600
